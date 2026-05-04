@@ -89,8 +89,11 @@ export default function Videos() {
           transition={{ delay: 0.5 }}
           className="mt-20 text-center"
         >
-          <button className="group relative px-12 py-5 overflow-hidden rounded-full border border-primary/30 transition-all duration-300">
-             <div className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+          <button 
+            className="group relative px-12 py-5 overflow-hidden rounded-full border border-primary/30 transition-all duration-300"
+            suppressHydrationWarning
+          >
+             <span className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
              <span className="relative z-10 uppercase font-bold tracking-[0.2em] text-sm group-hover:text-primary transition-colors">
                Explore Full Catalog
              </span>

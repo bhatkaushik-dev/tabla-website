@@ -35,8 +35,8 @@ export default function Bio() {
           >
             <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden gold-border gold-glow shadow-2xl">
               <Image
-                src="/my-tabla-photos/2W4A4260.jpeg"
-                alt="Kaushik Bhat"
+                src="/my-tabla-photos/2W4A4238.jpeg"
+                alt="Kaushik Bhat performing on stage"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -129,17 +129,7 @@ export default function Bio() {
                 </div>
               </motion.div>
 
-              <motion.div variants={itemVariants} className="pt-10 border-t border-white/5">
-                <h4 className="text-foreground font-bold font-serif text-2xl mb-6">Academic Excellence</h4>
-                <div className="p-8 rounded-3xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/10">
-                  <p className="text-lg italic text-foreground/90 mb-4 font-serif">
-                    "Precision in rhythm, precision in logic."
-                  </p>
-                  <p className="text-base">
-                    A <strong>BTech graduate from BIT</strong>, Kaushik seamlessly transitions between the complex rhythms of Tabla and the architectural logic of <strong>Frontend Engineering</strong>.
-                  </p>
-                </div>
-              </motion.div>
+
             </div>
           </motion.div>
         </div>

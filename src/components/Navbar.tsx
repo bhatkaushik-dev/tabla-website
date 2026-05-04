@@ -14,7 +14,6 @@ function cn(...inputs: ClassValue[]) {
 const navItems = [
   { name: "Home", href: "#home" },
   { name: "Bio", href: "#bio" },
-  { name: "Engineering", href: "#tech" },
   { name: "Videos", href: "#videos" },
   { name: "Gallery", href: "#gallery" },
   { name: "Contact", href: "#contact" },

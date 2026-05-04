@@ -12,7 +12,7 @@ const images = [
   { src: "/my-tabla-photos/IMG_8771.jpeg", span: "md:row-span-2", alt: "Artistic Portrait" },
   { src: "/my-tabla-photos/IMG_8772.jpeg", span: "", alt: "Tabla Details" },
   { src: "/my-tabla-photos/IMG_8773.jpeg", span: "", alt: "Musical Moment" },
-  { src: "/my-tabla-photos/a6a15c19-bbd1-497d-83c0-429cd50675fe.jpeg", span: "md:col-span-2", alt: "Collaborative Performance" },
+  { src: "/my-tabla-photos/a6a15c19-bbd1-497d-83c0-429cd50675fe.jpeg", span: "md:row-span-2", alt: "Professional Portrait" },
   { src: "/my-tabla-photos/b8be32dc-6fba-4246-8471-17c258808488.jpeg", span: "", alt: "Behind the Scenes" },
   { src: "/my-tabla-photos/2W4A4238.jpeg", span: "", alt: "Grand Stage" },
   { src: "/my-tabla-photos/2W4A4260.jpeg", span: "", alt: "Solo Recital" },

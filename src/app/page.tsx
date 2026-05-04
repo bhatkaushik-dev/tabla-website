@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Bio from "@/components/Bio";
-import TechSection from "@/components/TechSection";
+
 import Videos from "@/components/Videos";
 import Gallery from "@/components/Gallery";
 import Contact from "@/components/Contact";
@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Bio />
-      <TechSection />
+
       <Videos />
       <Gallery />
       <Contact />
