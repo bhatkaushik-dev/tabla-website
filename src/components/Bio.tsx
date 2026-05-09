@@ -10,23 +10,26 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.3
-    }
-  }
+      delayChildren: 0.3,
+    },
+  },
 };
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 export default function Bio() {
   return (
-    <section id="bio" className="py-32 px-6 bg-secondary/5 relative overflow-hidden">
+    <section
+      id="bio"
+      className="py-32 px-6 bg-secondary/5 relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
           {/* Image Column */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -38,27 +41,30 @@ export default function Bio() {
                 src="/my-tabla-photos/2W4A4238.jpeg"
                 alt="Kaushik Bhat performing on stage"
                 fill
-                priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
             </div>
-            
+
             <div className="mt-10 grid grid-cols-2 gap-6">
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -5 }}
                 className="p-6 rounded-2xl bg-background/60 border border-white/5 backdrop-blur-md gold-glow"
               >
                 <h4 className="text-primary font-bold text-3xl mb-1">12+</h4>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Years with Pt Gurumurthy Vaidya</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+                  Years with Pt Gurumurthy Vaidya
+                </p>
               </motion.div>
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -5 }}
                 className="p-6 rounded-2xl bg-background/60 border border-white/5 backdrop-blur-md gold-glow"
               >
                 <h4 className="text-primary font-bold text-3xl mb-1">B-High</h4>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">AIR Graded Artist</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+                  AIR Graded Artist
+                </p>
               </motion.div>
             </div>
           </motion.div>
@@ -70,14 +76,20 @@ export default function Bio() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
           >
-            <motion.h2 variants={itemVariants} className="text-primary font-medium tracking-[0.4em] uppercase text-xs mb-4">
+            <motion.h2
+              variants={itemVariants}
+              className="text-primary font-medium tracking-[0.4em] uppercase text-xs mb-4"
+            >
               Legacy & Lineage
             </motion.h2>
-            <motion.h3 variants={itemVariants} className="text-5xl md:text-6xl font-serif font-bold mb-10 leading-tight">
+            <motion.h3
+              variants={itemVariants}
+              className="text-5xl md:text-6xl font-serif font-bold mb-10 leading-tight"
+            >
               A Journey of <br />
               <span className="text-gradient">Dedication</span>
             </motion.h3>
-            
+
             <div className="space-y-12 text-muted-foreground leading-relaxed text-lg">
               <motion.div variants={itemVariants} className="space-y-4">
                 <h4 className="text-foreground font-bold font-serif text-2xl flex items-center gap-4">
@@ -85,10 +97,15 @@ export default function Bio() {
                   Musical Roots
                 </h4>
                 <p>
-                  Kaushik Bhat's journey into the world of Tabla began at the age of 10. His initial foundation was laid by his father, <strong>Shri Ganesh Bhat</strong>, an International Artist of fame, who taught him that every stroke is a sculpture in time.
+                  Kaushik Bhat's journey into the world of Tabla began at the
+                  age of 10. His initial foundation was laid by his father,{" "}
+                  <strong>Shri Ganesh Bhat</strong>, an International Artist of
+                  fame, who taught him that every stroke is a sculpture in time.
                 </p>
                 <p>
-                  Today, after 12 years of immersive study, he continues to evolve under the guidance of the legendary <strong>Pt Gurumurthy Vaidya</strong>.
+                  Today, after 12 years of immersive study, he continues to
+                  evolve under the guidance of the legendary{" "}
+                  <strong>Pt Gurumurthy Vaidya</strong>.
                 </p>
               </motion.div>
 
@@ -98,16 +115,24 @@ export default function Bio() {
                   Collaborations
                 </h4>
                 <p className="text-base">
-                  As a B-high Graded artist from All India Radio, Kaushik has shared the stage with masters of the craft:
+                  As a B-high Graded artist from All India Radio, Kaushik has
+                  shared the stage with masters of the craft:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm font-medium">
                   {[
-                    "Pt Parameshwar Hegde", "Ustaad Shafique Khan", 
-                    "Dr Ravindra Katoti", "Vid Poornima Bhat Kulkarni",
-                    "Padmashri Kanyakumari Avasarala", "Pt Dhananjay Hegde",
-                    "Pt Himanshu Nanda", "Shri Koushik Aithal"
+                    "Pt Parameshwar Hegde",
+                    "Ustaad Shafique Khan",
+                    "Dr Ravindra Katoti",
+                    "Vid Poornima Bhat Kulkarni",
+                    "Padmashri Kanyakumari Avasarala",
+                    "Pt Dhananjay Hegde",
+                    "Pt Himanshu Nanda",
+                    "Shri Koushik Aithal",
                   ].map((artist) => (
-                    <div key={artist} className="flex items-center gap-2 hover:text-primary transition-colors cursor-default">
+                    <div
+                      key={artist}
+                      className="flex items-center gap-2 hover:text-primary transition-colors cursor-default"
+                    >
                       <div className="w-1.5 h-1.5 rounded-full bg-primary/60" />
                       {artist}
                     </div>
@@ -118,18 +143,40 @@ export default function Bio() {
               <motion.div variants={itemVariants} className="space-y-4">
                 <h4 className="text-foreground font-bold font-serif text-2xl flex items-center gap-4">
                   <span className="w-10 h-[1px] bg-primary/40" />
+                  Teaching & Classes
+                </h4>
+                <p>
+                  Beyond performances, Kaushik is passionate about passing on
+                  the tradition. He conducts{" "}
+                  <strong>professional Tabla classes in Bangalore</strong>,
+                  specifically catering to students near{" "}
+                  <strong>JP Nagar</strong>. His teaching methodology blends
+                  traditional techniques with a modern understanding of rhythm.
+                </p>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-4">
+                <h4 className="text-foreground font-bold font-serif text-2xl flex items-center gap-4">
+                  <span className="w-10 h-[1px] bg-primary/40" />
                   Versatility
                 </h4>
                 <div className="flex flex-wrap gap-3">
-                  {["Kathak", "Devotional", "Abhangs", "Bhajans", "Movie Scores"].map((tag) => (
-                    <span key={tag} className="px-5 py-2 bg-primary/5 border border-primary/20 rounded-xl text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary/10 transition-all">
+                  {[
+                    "Kathak",
+                    "Devotional",
+                    "Abhangs",
+                    "Bhajans",
+                    "Movie Scores",
+                  ].map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-5 py-2 bg-primary/5 border border-primary/20 rounded-xl text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary/10 transition-all"
+                    >
                       {tag}
                     </span>
                   ))}
                 </div>
               </motion.div>
-
-
             </div>
           </motion.div>
         </div>

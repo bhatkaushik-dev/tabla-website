@@ -35,7 +35,7 @@ export default function Hero() {
             
             <div className="relative w-full h-full rounded-[inherit] overflow-hidden bg-black">
               <Image
-               src="/my-tabla-photos/2W4A4238.jpeg"
+               src="/my-tabla-photos/IMG_8772.jpeg"
                 alt="Kaushik Bhat with Tabla"
                 fill
                 className="object-cover object-[center_25%] scale-[1.25] transition-transform duration-700 group-hover:scale-[1.3]"

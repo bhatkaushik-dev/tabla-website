@@ -1,0 +1,16 @@
+{
+  "name": "Kaushik Bhat | Professional Tabla Artist",
+  "short_name": "Kaushik Bhat",
+  "description": "Official portfolio of Kaushik Bhat, a professional B-High Graded Tabla artist. Professional Tabla classes in Bangalore and JP Nagar.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#D4AF37",
+  "icons": [
+    {
+      "src": "/icon.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

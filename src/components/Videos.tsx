@@ -91,6 +91,7 @@ export default function Videos() {
         >
           <button 
             className="group relative px-12 py-5 overflow-hidden rounded-full border border-primary/30 transition-all duration-300"
+            aria-label="Explore Full Video Catalog"
             suppressHydrationWarning
           >
              <span className="absolute inset-0 bg-primary/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />

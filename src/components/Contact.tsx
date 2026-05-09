@@ -6,7 +6,10 @@ import { Mail, Phone, MapPin, Music, Video, Globe } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 px-6 bg-background relative overflow-hidden">
+    <section
+      id="contact"
+      className="py-24 px-6 bg-background relative overflow-hidden"
+    >
       {/* Decorative background element */}
       <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -27,7 +30,9 @@ export default function Contact() {
               <span className="text-gradient">Something Beautiful</span>
             </h3>
             <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
-              For concert bookings, workshops, or private lessons, please feel free to reach out. I'm always open to new musical collaborations and opportunities.
+              For concert bookings, workshops, or private lessons, please feel
+              free to reach out. I'm always open to new musical collaborations
+              and opportunities.
             </p>
 
             <div className="space-y-6">
@@ -36,18 +41,22 @@ export default function Contact() {
                   <Mail size={20} />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Email</p>
-                  <p className="text-lg font-medium">bhatkaushik@gmail.com</p>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                    Email
+                  </p>
+                  <p className="text-lg font-medium">kaushikgb99@gmail.com</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-4 group">
                 <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-primary border border-white/5 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                   <Phone size={20} />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Phone</p>
-                  <p className="text-lg font-medium">+91 98765 43210</p>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                    Phone
+                  </p>
+                  <p className="text-lg font-medium">+91 91106 91605</p>
                 </div>
               </div>
 
@@ -56,17 +65,26 @@ export default function Contact() {
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Location</p>
-                  <p className="text-lg font-medium">Mumbai, Maharashtra, India</p>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                    Location
+                  </p>
+                  <p className="text-lg font-medium">
+                    JP Nagar, Bangalore, Karnataka, India
+                  </p>
                 </div>
               </div>
             </div>
 
             <div className="mt-12 flex gap-4">
-              {[Music, Video, Globe].map((Icon, i) => (
-                <a 
-                  key={i} 
-                  href="#" 
+              {[
+                { Icon: Music, label: "SoundCloud" },
+                { Icon: Video, label: "YouTube" },
+                { Icon: Globe, label: "Website" },
+              ].map(({ Icon, label }, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  aria-label={label}
                   className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all"
                 >
                   <Icon size={18} />
@@ -85,18 +103,30 @@ export default function Contact() {
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1">Name</label>
-                  <input 
-                    type="text" 
+                  <label
+                    htmlFor="name"
+                    className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1"
+                  >
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
                     className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors"
                     placeholder="Your Name"
                     suppressHydrationWarning
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1">Email</label>
-                  <input 
-                    type="email" 
+                  <label
+                    htmlFor="email"
+                    className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
                     className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors"
                     placeholder="Your Email"
                     suppressHydrationWarning
@@ -104,24 +134,37 @@ export default function Contact() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1">Subject</label>
-                <input 
-                  type="text" 
+                <label
+                  htmlFor="subject"
+                  className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1"
+                >
+                  Subject
+                </label>
+                <input
+                  id="subject"
+                  type="text"
                   className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors"
                   placeholder="Inquiry Subject"
                   suppressHydrationWarning
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1">Message</label>
-                <textarea 
+                <label
+                  htmlFor="message"
+                  className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
                   rows={4}
                   className="w-full bg-background/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors resize-none"
                   placeholder="Your Message"
                   suppressHydrationWarning
                 ></textarea>
               </div>
-              <button 
+              <button
+                type="submit"
                 className="w-full py-4 bg-primary text-primary-foreground font-bold uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all gold-glow"
                 suppressHydrationWarning
               >
