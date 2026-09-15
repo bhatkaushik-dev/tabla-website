@@ -117,7 +117,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased bg-background text-foreground">
         <script
           type="application/ld+json"
