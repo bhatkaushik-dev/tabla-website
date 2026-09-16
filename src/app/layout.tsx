@@ -1,72 +1,70 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
+
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
+import { site } from "@/lib/site";
+import { graph, personSchema, websiteSchema } from "@/lib/jsonld";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
-    default: "Kaushik Bhat | Professional Tabla Artist & Teacher in Bangalore",
-    template: "%s | Kaushik Bhat",
+    default: "Kaushik Bhat | Tabla Artist & Tabla Classes in Bangalore",
+    template: "%s | Kaushik Bhat Tabla",
   },
   description:
-    "Official portfolio of Kaushik Bhat, a B-High Graded Tabla artist from AIR. Offering professional Tabla classes in Bangalore (JP Nagar) and performing Indian Classical Music worldwide.",
+    "Kaushik Bhat is a B-High graded tabla artist of All India Radio, performing Hindustani classical music and teaching tabla classes in JP Nagar, Bangalore.",
+  applicationName: site.shortName,
   keywords: [
     "Kaushik Bhat",
     "Kaushik Bhat Tabla",
-    "Tabla Artist",
+    "Kaushik G Bhat",
+    "Tabla artist Bangalore",
+    "Tabla classes in JP Nagar",
     "Tabla classes in Bangalore",
-    "Tabla classes near JP Nagar",
-    "Indian Classical Music",
-    "Tabla Player Bangalore",
-    "AIR Artist",
-    "Tabla Solo",
-    "Percussionist",
-    "Tabla Teacher Bangalore",
+    "Tabla teacher JP Nagar",
+    "Tabla lessons Bangalore",
+    "Learn tabla Bangalore",
+    "Online tabla classes",
+    "Indian classical music",
+    "Hindustani classical tabla",
+    "AIR B-High artist",
+    "Tabla solo",
   ],
-  authors: [{ name: "Kaushik Bhat" }],
-  creator: "Kaushik Bhat",
-  publisher: "Kaushik Bhat",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL("https://tabla.kaushikbhat.in"),
-  alternates: {
-    canonical: "/",
-  },
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  category: "music",
+  formatDetection: { email: false, address: false, telephone: false },
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Kaushik Bhat | Professional Tabla Artist",
-    description:
-      "Official portfolio of Kaushik Bhat. B-High Graded Tabla artist. Professional classes in Bangalore & JP Nagar.",
-    url: "https://tabla.kaushikbhat.in",
-    siteName: "Kaushik Bhat Portfolio",
-    images: [
-      {
-        url: "/hero-tabla.png",
-        width: 1200,
-        height: 630,
-        alt: "Kaushik Bhat Tabla Artist",
-      },
-    ],
-    locale: "en_IN",
     type: "website",
+    siteName: `${site.name} — ${site.role}`,
+    locale: site.locale,
+    url: site.url,
+    title: "Kaushik Bhat | Tabla Artist & Tabla Classes in Bangalore",
+    description:
+      "B-High graded tabla artist of All India Radio. Hindustani classical performances and tabla classes in JP Nagar, Bangalore.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kaushik Bhat | Professional Tabla Artist",
+    title: "Kaushik Bhat | Tabla Artist & Teacher, Bangalore",
     description:
-      "Official portfolio of Kaushik Bhat. B-High Graded Tabla artist. Professional classes in Bangalore & JP Nagar.",
-    images: ["/hero-tabla.png"],
+      "B-High graded tabla artist of All India Radio. Performances and tabla classes in JP Nagar, Bangalore.",
   },
   robots: {
     index: true,
@@ -79,53 +77,47 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: "/icon.jpeg",
-    apple: "/apple-icon.jpeg",
-  },
-  manifest: "/manifest.json",
-  themeColor: "#0a0a0a",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
+  manifest: "/manifest.webmanifest",
+};
+
+// themeColor and viewport are no longer valid inside `metadata` in this
+// version of Next — they belong to their own export.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // The site has one look in both schemes, so a single theme colour is right.
+  themeColor: "#0b0908",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Kaushik Bhat",
-    "url": "https://tabla.kaushikbhat.in",
-    "image": "https://tabla.kaushikbhat.in/hero-tabla.png",
-    "jobTitle": "Professional Tabla Artist & Teacher",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Bangalore",
-      "addressRegion": "Karnataka",
-      "addressCountry": "India"
-    },
-    "sameAs": [
-      // Add social media URLs here
-    ],
-    "description": "B-High Graded Tabla artist from AIR specializing in Indian Classical Music and professional teaching in JP Nagar, Bangalore."
-  };
-
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
-      <body className="font-sans antialiased bg-background text-foreground">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        {children}
+    <html
+      lang="en-IN"
+      // Required in this version for `scroll-behavior: smooth` to be suppressed
+      // during route transitions rather than animating every navigation.
+      data-scroll-behavior="smooth"
+      className={`${playfair.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="bg-background font-sans text-foreground antialiased">
+        {/* Site-wide entity graph; pages add their own page-specific nodes. */}
+        <JsonLd data={graph(personSchema(), websiteSchema())} />
+
+        <a
+          href="#main"
+          data-print="hide"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-full focus:bg-primary focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-primary-foreground"
+        >
+          Skip to content
+        </a>
+
+        <Navbar />
+        <main id="main">{children}</main>
+        <Footer />
       </body>
     </html>
   );
 }
-// test push
