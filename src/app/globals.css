@@ -1,21 +1,47 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Dark & gold. A warm near-black ground (not neutral grey — it's mixed toward
+   brown so the gold reads as metal rather than yellow), with three stacked
+   surface levels because on a dark theme a band only separates from the page
+   if it is measurably lighter:
+
+     --ink         #000000   deepest — the full-bleed CTA bands
+     --background  #0b0908   the page
+     --surface-alt #141110   alternating section bands
+     --surface     #1f1a16   cards and panels
+
+   Contrast against --background: foreground 17.2:1, muted-foreground 7.4:1,
+   gold 9.2:1, and dark-on-gold buttons 9.0:1 — all far past WCAG AA, which is
+   the advantage of going dark.
+--------------------------------------------------------------------------- */
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #f5f5f5;
-  --primary: #d4af37; /* Gold */
-  --primary-foreground: #121212;
-  --secondary: #1a1a1a;
+  color-scheme: dark;
+
+  --background: #0b0908;
+  --surface: #1f1a16;
+  --surface-alt: #141110;
+  --foreground: #f6f1e7; /* warm off-white, never pure #fff */
+  --primary: #d4af37; /* gold */
+  --primary-foreground: #14100a;
+  --secondary: #1f1a16;
   --secondary-foreground: #d4af37;
-  --muted: #262626;
-  --muted-foreground: #a3a3a3;
+  --muted: #241e19;
+  --muted-foreground: #a89f90;
   --accent: #d4af37;
-  --accent-foreground: #121212;
-  --border: #333333;
+  /* A touch brighter for the pure-black CTA bands. */
+  --accent-on-ink: #e0bb5a;
+  --accent-foreground: #14100a;
+  --border: #2e2822;
+  --ink: #000000;
+  --ink-foreground: #f6f1e7;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -24,8 +50,16 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
+  --color-accent-on-ink: var(--accent-on-ink);
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+
+  /* next/font exposes these on <html>; without binding them here Tailwind's
+     font-serif / font-sans silently fall back to the system stacks. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 }
 
 html {
@@ -45,24 +79,294 @@ body {
   color: var(--primary-foreground);
 }
 
+/* Visible, on-brand focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+--------------------------------------------------------------------------- */
+
+/* Translucent bar behind the sticky navbar. */
 .glass {
-  background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  background: color-mix(in srgb, var(--background) 82%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border-bottom: 1px solid var(--border);
 }
 
+/* Small uppercase label above a heading. */
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Anything sitting on the dark ink ground swaps to the bright brass. */
+.on-ink .eyebrow {
+  color: var(--accent-on-ink);
+}
+
+/* Editorial headings: tight leading, slightly negative tracking. */
+.display {
+  font-family: var(--font-playfair), ui-serif, Georgia, serif;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 12%, transparent)
+  );
+}
+
+/* Gold fill for the emphasis word in a two-tone headline — "Watch &
+   <span>Experience</span>". The lighter mid-stop is what makes it read as
+   leaf rather than flat yellow. */
 .text-gradient {
+  /* Real colour, not transparent: it is what paints if background-clip:text
+     is unsupported or the background is suppressed, and it is what assistive
+     and contrast tooling reads. The gradient is layered over the top. */
+  color: var(--accent);
   background: linear-gradient(135deg, #d4af37 0%, #f9d976 50%, #d4af37 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .text-gradient {
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* Windows high-contrast replaces the palette; the clipped fill would erase
+   the headline entirely. */
+@media (forced-colors: active) {
+  .text-gradient {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
+/* Hairline gold edge on framed photographs and cards. */
 .gold-border {
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 .gold-glow {
-  box-shadow: 0 0 40px rgba(212, 175, 55, 0.05);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* Pulls the colour-shifted stage lighting toward the gold, and drops the
+   photo's black point onto the page's so the image sinks into the ground
+   instead of sitting on it as a bright rectangle. */
+.duotone {
+  filter: sepia(0.28) saturate(0.95) contrast(1.06) brightness(0.92);
+}
+
+/* Grain over the flat black bands so they don't read as dead space. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Scroll reveal. The resting state is fully visible, so if the browser doesn't
+   support scroll-driven animations (or the user opts out of motion) the
+   content simply appears — it is never hidden waiting on JavaScript. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry calc(45% + var(--reveal-delay, 0%));
+    }
+  }
+}
+
+/* The starting opacity is deliberately non-zero. A renderer that snapshots the
+   page at full height without scrolling — which is how crawlers see it — would
+   otherwise capture every below-the-fold section at opacity 0. The translate
+   carries most of the motion anyway. */
+@keyframes reveal-in {
+  from {
+    opacity: 0.35;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion is opt-out, globally.
+--------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Print — this is the "Download bio" output. The /about page prints as a
+   clean black-on-white one-pager; everything chrome-like is dropped.
+--------------------------------------------------------------------------- */
+
+@media print {
+  /* The screen theme is dark, so EVERY surface token has to be inverted here —
+     missing one prints a black slab down the page (or, with "background
+     graphics" off, invisible white-on-white text). */
+  :root {
+    color-scheme: light;
+
+    --background: #ffffff;
+    --surface: #ffffff;
+    --surface-alt: #ffffff;
+    --foreground: #000000;
+    --primary: #000000;
+    --primary-foreground: #ffffff;
+    --secondary: #ffffff;
+    --secondary-foreground: #000000;
+    --muted: #ffffff;
+    --muted-foreground: #333333;
+    --accent: #666666;
+    --accent-on-ink: #666666;
+    --accent-foreground: #000000;
+    --border: #cccccc;
+    --ink: #ffffff;
+    --ink-foreground: #000000;
+  }
+
+  @page {
+    margin: 18mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+  }
+
+  /* Nav, footer, buttons, decorative media and the animated bits. */
+  [data-print="hide"] {
+    display: none !important;
+  }
+
+  /* Scroll reveals never run in print, so pin every section to its end state —
+     otherwise the whole bio prints at the animation's starting opacity. */
+  .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Sections that stack on screen shouldn't carry screen-sized padding. */
+  [data-print="page"] {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Collapse multi-column layouts into a single readable column. */
+  [data-print="stack"] {
+    display: block !important;
+    max-width: 100% !important;
+  }
+
+  [data-print="stack"] > * {
+    width: auto !important;
+    max-width: 100% !important;
+    position: static !important;
+  }
+
+  /* Clipping the background to the text makes the glyphs transparent, which
+     on paper is simply an invisible headline. */
+  .text-gradient {
+    background: none !important;
+    -webkit-text-fill-color: #000 !important;
+    color: #000 !important;
+  }
+
+  .gold-glow {
+    box-shadow: none !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #000 !important;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  img {
+    filter: none !important;
+  }
+
+  /* next/image fill mode absolutely-positions the <img>, so the print size has
+     to be set on the wrapper, not the image. Floated so the bio text wraps
+     around the portrait instead of leaving a page of white. */
+  [data-print="photo"] {
+    float: right;
+    width: 42mm !important;
+    height: 53mm !important;
+    aspect-ratio: auto !important;
+    margin: 0 0 5mm 6mm;
+    border: none !important;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #555;
+    word-break: break-all;
+  }
+
+  /* Inner links would litter the page with URLs. */
+  a[href^="/"]::after,
+  a[href^="#"]::after {
+    content: "";
+  }
 }
