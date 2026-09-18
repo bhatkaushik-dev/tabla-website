@@ -2,6 +2,8 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
+import { domain } from "./site";
+
 /**
  * Shared Open Graph card renderer, so every route's social preview is the same
  * design with different copy.
@@ -112,7 +114,7 @@ export async function renderOgImage({
         >
           <div style={{ display: "flex" }}>B-High Graded · All India Radio</div>
           <div style={{ display: "flex", color: "rgba(251,247,240,0.45)" }}>
-            tabla.kaushikbhat.in
+            {domain}
           </div>
         </div>
       </div>

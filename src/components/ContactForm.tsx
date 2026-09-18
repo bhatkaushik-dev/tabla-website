@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { MessageCircle } from "lucide-react";
-import { mailtoLink, site, whatsappLink } from "@/lib/site";
+import { domain, mailtoLink, site, whatsappLink } from "@/lib/site";
 import { pillClasses } from "./PillButton";
 
 const enquiries = [
@@ -39,7 +39,7 @@ export default function ContactForm() {
     event.preventDefault();
 
     const message = [
-      "*New enquiry from tabla.kaushikbhat.in*",
+      `*New enquiry from ${domain}*`,
       "",
       `*Name:* ${formData.name}`,
       `*Email:* ${formData.email}`,

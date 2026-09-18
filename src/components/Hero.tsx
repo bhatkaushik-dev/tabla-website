@@ -51,9 +51,15 @@ export default function Hero() {
             B-High Graded Artist · AIR
           </p>
 
+          {/* The name stays the visual anchor, but the h1 also has to carry
+              the words people actually search for — "kaushik bhat tabla"
+              matched nothing in the heading before. */}
           <h1 className="mt-6 font-serif text-5xl font-bold leading-[1.1] tracking-tight md:text-7xl lg:text-8xl">
             Kaushik <br />
             <span className="text-gradient">Bhat</span>
+            <span className="mt-5 block font-sans text-base font-medium tracking-normal text-primary md:text-lg lg:text-xl">
+              Tabla Artist &amp; Teacher, Bangalore
+            </span>
           </h1>
 
           <p className="mx-auto mt-8 max-w-xl leading-relaxed text-muted-foreground md:mx-0 md:text-lg">
