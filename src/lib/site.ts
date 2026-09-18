@@ -7,7 +7,7 @@
 import type { Metadata } from "next";
 
 export const site = {
-  url: "https://tabla.kaushikbhat.in",
+  url: "https://kaushikbhat.in",
   name: "Kaushik Bhat",
   shortName: "Kaushik Bhat Tabla",
   role: "Tabla Artist & Teacher",
@@ -53,6 +53,13 @@ export const site = {
     gradingBody: "All India Radio",
   },
 } as const;
+
+/**
+ * Bare host, for the places that show the domain as text rather than link to
+ * it (the OG card footer, the WhatsApp enquiry header). Derived so a domain
+ * change only ever needs editing `url` above.
+ */
+export const domain = new URL(site.url).host;
 
 /** Everything that proves this is the same person across the web. */
 export const sameAs = [
