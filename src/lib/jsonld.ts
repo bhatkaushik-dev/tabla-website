@@ -9,7 +9,7 @@
  * "kaushik bhat tabla" resolve to this site.
  */
 
-import { sameAs, site } from "./site";
+import { imageLicense, sameAs, site } from "./site";
 import { videos, thumbnailUrl, watchUrl, embedUrl } from "./videos";
 import { galleryPhotos } from "./photos";
 import { faqs } from "./faqs";
@@ -148,6 +148,12 @@ export const gallerySchema = () => ({
     width: photo.width,
     height: photo.height,
     creator: { "@id": PERSON_ID },
+    // The four fields Search Console reports as missing. They are what makes
+    // an image eligible for the licence badge in Google Images.
+    creditText: imageLicense.creditText,
+    copyrightNotice: imageLicense.copyrightNotice,
+    license: abs(imageLicense.licensePath),
+    acquireLicensePage: abs(imageLicense.acquireLicensePath),
   })),
 });
 

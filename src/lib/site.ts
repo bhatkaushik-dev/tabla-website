@@ -61,6 +61,22 @@ export const site = {
  */
 export const domain = new URL(site.url).host;
 
+/**
+ * Image rights, attached to every ImageObject in the gallery schema. Search
+ * Console reports all four as missing without them.
+ *
+ * `licensePath` points at the terms already printed at the foot of /gallery
+ * rather than at a page invented to satisfy the validator, and
+ * `acquireLicensePath` at the place someone actually asks. Change `creditText`
+ * if a photographer other than Kaushik shot the gallery set.
+ */
+export const imageLicense = {
+  creditText: site.name,
+  copyrightNotice: `© ${site.name}`,
+  licensePath: "/gallery#licence",
+  acquireLicensePath: "/contact",
+} as const;
+
 /** Everything that proves this is the same person across the web. */
 export const sameAs = [
   site.social.youtube,

@@ -49,7 +49,13 @@ export default function GalleryPage() {
             ))}
           </div>
 
-          <p className="mt-12 text-center text-sm text-muted-foreground">
+          {/* The id is the target of `license` in the gallery's ImageObject
+              nodes — the terms have to live at a real URL, and they already
+              live here. */}
+          <p
+            id="licence"
+            className="mt-12 scroll-mt-28 text-center text-sm text-muted-foreground"
+          >
             Photographs may be used for event promotion with credit to Kaushik
             Bhat. For other uses, please{" "}
             <a href="/contact" className="font-semibold text-primary hover:underline">
