@@ -35,6 +35,7 @@ export const site = {
     "Banashankari",
     "BTM Layout",
     "Bengaluru",
+    "banglore"
   ],
 
   social: {
@@ -46,7 +47,7 @@ export const site = {
   /** Repeated across the home, about and classes bios — change once here. */
   training: {
     startAge: 10,
-    years: 12,
+    years: 14,
     teacher: "Pt Gurumurthy Vaidya",
     father: "Shri Ganesh Bhat",
     grade: "B-High",

@@ -18,10 +18,10 @@ export const metadata = pageMetadata({
   // "Kaushik Bhat" and push it past the ~60 characters Google renders.
   title: "About Kaushik Bhat — Tabla Artist, Bangalore",
   description:
-    "The biography of Kaushik Bhat: twelve years of tabla under Pt Gurumurthy Vaidya, a B-High grading from All India Radio, and performances with Pt Parameshwar Hegde, Ustaad Shafique Khan and Padmashri Kanyakumari Avasarala.",
+    "The biography of Kaushik Bhat: fourteen years of tabla under Pt Gurumurthy Vaidya, a B-High grading from All India Radio, and performances with Pt Parameshwar Hegde, Ustaad Shafique Khan and Padmashri Kanyakumari Avasarala.",
   ogTitle: "About Kaushik Bhat — Tabla Artist",
   ogDescription:
-    "Twelve years under Pt Gurumurthy Vaidya, B-High graded artist of All India Radio, performing Hindustani classical music across India.",
+    "Fourteen years under Pt Gurumurthy Vaidya, B-High graded artist of All India Radio, performing Hindustani classical music across India.",
 });
 
 const collaborators = [

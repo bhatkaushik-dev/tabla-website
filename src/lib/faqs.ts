@@ -49,6 +49,6 @@ export const faqs: Faq[] = [
   {
     question: "What does Kaushik Bhat's own training background cover?",
     answer:
-      "Kaushik Bhat is a B-High graded tabla artist of All India Radio. He began under his father Shri Ganesh Bhat and has trained for over twelve years under Pt Gurumurthy Vaidya, performing with artists including Pt Parameshwar Hegde, Ustaad Shafique Khan and Padmashri Kanyakumari Avasarala.",
+      "Kaushik Bhat is a B-High graded tabla artist of All India Radio. He began under his father Shri Ganesh Bhat and has trained for over fourteen years under Pt Gurumurthy Vaidya, performing with artists including Pt Parameshwar Hegde, Ustaad Shafique Khan and Padmashri Kanyakumari Avasarala.",
   },
 ];
