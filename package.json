@@ -9,6 +9,7 @@
     "lint": "eslint",
     "check:contrast": "node scripts/check-contrast.mjs",
     "images": "node scripts/optimize-images.mjs",
+    "images:photoshoot": "node scripts/optimize-photoshoot.mjs",
     "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {

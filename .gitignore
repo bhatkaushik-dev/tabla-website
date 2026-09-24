@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 .playwright-mcp/
 .claude/
+
+# raw photoshoot originals (optimised copies live in public/photos)
+/photoshoot-src/

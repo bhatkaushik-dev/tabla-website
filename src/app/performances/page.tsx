@@ -7,6 +7,7 @@ import JsonLd from "@/components/JsonLd";
 import FadeIn from "@/components/FadeIn";
 import { breadcrumbSchema, graph, videoSchemas } from "@/lib/jsonld";
 import { videos } from "@/lib/videos";
+import { playingPhoto } from "@/lib/photos";
 import { pageMetadata, site } from "@/lib/site";
 
 export const metadata = pageMetadata({
@@ -24,9 +25,7 @@ export default function PerformancesPage() {
     <>
       <JsonLd
         data={graph(
-          breadcrumbSchema([
-            { name: "Performances", path: "/performances" },
-          ]),
+          breadcrumbSchema([{ name: "Performances", path: "/performances" }]),
           ...videoSchemas(),
         )}
       />
@@ -36,12 +35,22 @@ export default function PerformancesPage() {
         title="Watch &"
         highlight="Experience"
         intro="Tabla solo and classical accompaniment, recorded live."
-        crumbs={[{ label: "Performances", href: "/performances" }]}
-      />
+        photo={playingPhoto}
+        photoOptions={{
+          position: "50% 50%",
+          mobilePosition: "50% 50%",
+          mobileAspect: "aspect-4/5 sm:aspect-[4/3]",
+        }}
+      >
+        <PillButton href={site.social.youtube} size="default" newTab>
+          <YoutubeIcon size={16} />
+          YouTube channel
+        </PillButton>
+      </PageHeader>
 
-      <section className="px-6 py-20">
+      <section className="px-6 pb-24 pt-4 sm:pt-8">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-12 md:grid-cols-2">
+          <div className="grid gap-x-10 gap-y-14 md:grid-cols-2">
             {videos.map((video, index) => (
               <FadeIn key={video.id} delay={index * 0.08}>
                 <VideoCard video={video} />
@@ -53,10 +62,6 @@ export default function PerformancesPage() {
             <h2 className="display text-2xl font-bold">
               More on the YouTube channel
             </h2>
-            <p className="max-w-xl text-muted-foreground">
-              Concert recordings, solo compositions and accompaniment sets are
-              posted regularly.
-            </p>
             <PillButton href={site.social.youtube} newTab>
               <YoutubeIcon size={18} />
               Visit @KaushikBhatTabla
@@ -64,14 +69,6 @@ export default function PerformancesPage() {
           </FadeIn>
         </div>
       </section>
-
-      <CTASection
-        eyebrow="Bookings"
-        title="Invite Kaushik to your concert"
-        body="Available for solo tabla, classical and devotional accompaniment, Kathak recitals and studio recording."
-        primary={{ href: "/contact", label: "Enquire now" }}
-        secondary={{ href: "/gallery", label: "See the gallery" }}
-      />
     </>
   );
 }

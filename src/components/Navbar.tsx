@@ -62,9 +62,6 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-          <PillButton href="/classes" size="sm">
-            Book a class
-          </PillButton>
         </div>
 
         <button

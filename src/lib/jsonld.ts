@@ -11,7 +11,7 @@
 
 import { imageLicense, sameAs, site } from "./site";
 import { videos, thumbnailUrl, watchUrl, embedUrl } from "./videos";
-import { galleryPhotos } from "./photos";
+import { galleryPhotos, heroPortraitPhoto, teachingPhoto } from "./photos";
 import { faqs } from "./faqs";
 
 const abs = (path: string) => new URL(path, site.url).toString();
@@ -35,7 +35,7 @@ export const personSchema = () => ({
   name: site.name,
   alternateName: ["Kaushik Bhat Tabla", "Kaushik G Bhat"],
   url: site.url,
-  image: abs("/photos/kaushik-bhat-tabla-portrait.webp"),
+  image: abs(heroPortraitPhoto.src),
   jobTitle: site.role,
   description:
     "B-High graded tabla artist of All India Radio, performing Hindustani classical music and teaching tabla in JP Nagar, Bangalore.",
@@ -70,7 +70,7 @@ export const musicSchoolSchema = () => ({
   "@id": SCHOOL_ID,
   name: "Kaushik Bhat Tabla Classes",
   url: abs("/classes"),
-  image: abs("/photos/kaushik-bhat-tabla-teacher-jp-nagar.webp"),
+  image: abs(teachingPhoto.src),
   description:
     "Tabla classes in JP Nagar, Bangalore for beginners to advanced students, taught by B-High graded All India Radio artist Kaushik Bhat. In-person and online lessons.",
   founder: { "@id": PERSON_ID },

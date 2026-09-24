@@ -1,5 +1,11 @@
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import type { ComponentProps, CSSProperties, ReactNode } from "react";
+
+import PhotoSplit from "./PhotoSplit";
+import { Eyebrow, Highlight } from "./SectionHeading";
+import type { Photo } from "@/lib/photos";
+
+const rise = (delay: number) =>
+  ({ "--rise-delay": `${delay}s` }) as CSSProperties;
 
 type Props = {
   eyebrow?: string;
@@ -8,8 +14,17 @@ type Props = {
   /** Trailing words set in gold. */
   highlight?: string;
   intro?: string;
-  /** Breadcrumb trail after Home; the last item is the current page. */
-  crumbs?: { label: string; href: string }[];
+  /**
+   * With a photo the header becomes a near-full-height split: the photograph
+   * pinned to the right, the title over the dark on the left.
+   */
+  photo?: Photo;
+  photoOptions?: Omit<
+    ComponentProps<typeof PhotoSplit>,
+    "photo" | "children" | "as" | "preload"
+  >;
+  /** Actions under the intro (photo headers only). */
+  children?: ReactNode;
 };
 
 export default function PageHeader({
@@ -17,61 +32,56 @@ export default function PageHeader({
   title,
   highlight,
   intro,
-  crumbs,
+  photo,
+  photoOptions,
+  children,
 }: Props) {
-  return (
-    <header className="relative overflow-hidden px-6 pb-16 pt-36 text-center sm:pt-44 print:px-0 print:pb-4 print:pt-0 print:text-left">
-      {/* Gold bloom, same device as the hero. */}
-      <div
-        aria-hidden
-        data-print="hide"
-        className="absolute left-1/2 top-0 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"
-      />
-
-      <div className="mx-auto max-w-3xl">
-        {crumbs && crumbs.length > 0 && (
-          <nav
-            aria-label="Breadcrumb"
-            data-print="hide"
-            className="mb-8 flex items-center justify-center gap-1.5 text-xs text-muted-foreground"
+  if (photo) {
+    return (
+      <PhotoSplit
+        as="header"
+        photo={photo}
+        preload
+        className="lg:min-h-[max(40rem,88svh)]"
+        {...photoOptions}
+      >
+        {eyebrow && <Eyebrow className="hero-rise">{eyebrow}</Eyebrow>}
+        <h1
+          className="hero-rise mt-5 font-serif text-5xl font-bold leading-[1.02] tracking-tight md:text-6xl xl:text-7xl"
+          style={rise(0.1)}
+        >
+          {title}
+          {highlight && <Highlight>{highlight}</Highlight>}
+        </h1>
+        {intro && (
+          <p
+            className="hero-rise mt-7 max-w-md leading-relaxed text-muted-foreground md:text-lg"
+            style={rise(0.25)}
           >
-            <Link href="/" className="hover:text-primary">
-              Home
-            </Link>
-            {crumbs.map((crumb, index) => {
-              const isLast = index === crumbs.length - 1;
-              return (
-                <span key={crumb.href} className="flex items-center gap-1.5">
-                  <ChevronRight size={13} aria-hidden className="text-accent" />
-                  {isLast ? (
-                    <span aria-current="page" className="text-foreground">
-                      {crumb.label}
-                    </span>
-                  ) : (
-                    <Link href={crumb.href} className="hover:text-primary">
-                      {crumb.label}
-                    </Link>
-                  )}
-                </span>
-              );
-            })}
-          </nav>
-        )}
-
-        {eyebrow && (
-          <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-primary">
-            {eyebrow}
+            {intro}
           </p>
         )}
+        {children && (
+          <div
+            className="hero-rise mt-9 flex flex-wrap gap-3"
+            style={rise(0.4)}
+            data-print="hide"
+          >
+            {children}
+          </div>
+        )}
+      </PhotoSplit>
+    );
+  }
+
+  return (
+    <header className="relative overflow-hidden px-6 pb-16 pt-36 text-center sm:pt-44 print:px-0 print:pb-4 print:pt-0 print:text-left">
+      <div className="mx-auto max-w-3xl">
+        {eyebrow && <Eyebrow className="justify-center">{eyebrow}</Eyebrow>}
 
         <h1 className="mt-5 font-serif text-5xl font-bold tracking-tight md:text-6xl">
           {title}
-          {highlight && (
-            <>
-              {" "}
-              <span className="text-gradient">{highlight}</span>
-            </>
-          )}
+          {highlight && <Highlight>{highlight}</Highlight>}
         </h1>
 
         {intro && (

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Cinzel_Decorative } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
@@ -11,6 +11,14 @@ import { graph, personSchema, websiteSchema } from "@/lib/jsonld";
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  display: "swap",
+});
+
+// Classical display face, used only for the name in the hero.
+const cinzel = Cinzel_Decorative({
+  subsets: ["latin"],
+  weight: "700",
+  variable: "--font-cinzel",
   display: "swap",
 });
 
@@ -99,7 +107,7 @@ export default function RootLayout({
       // Required in this version for `scroll-behavior: smooth` to be suppressed
       // during route transitions rather than animating every navigation.
       data-scroll-behavior="smooth"
-      className={`${playfair.variable} ${inter.variable}`}
+      className={`${playfair.variable} ${inter.variable} ${cinzel.variable}`}
       suppressHydrationWarning
     >
       <body className="bg-background font-sans text-foreground antialiased">

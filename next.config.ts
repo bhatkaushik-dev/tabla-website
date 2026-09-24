@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     ],
   },
   poweredByHeader: false,
+  // Dev only: lets a phone on the same Wi-Fi load the dev server's scripts.
+  allowedDevOrigins: ["192.168.68.132"],
 };
 
 export default nextConfig;

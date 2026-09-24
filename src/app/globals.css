@@ -60,6 +60,7 @@
      font-serif / font-sans silently fall back to the system stacks. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-display: var(--font-cinzel), var(--font-playfair), ui-serif, Georgia, serif;
 }
 
 html {
@@ -171,6 +172,137 @@ body {
    instead of sitting on it as a bright rectangle. */
 .duotone {
   filter: sepia(0.28) saturate(0.95) contrast(1.06) brightness(0.92);
+}
+
+/* The photoshoot frames sit on a light grey studio sweep. Pulling the
+   exposure down and warming it slightly turns that grey into charcoal, so the
+   full-bleed hero reads as part of the dark page rather than a bright slab. */
+.hero-tone {
+  filter: brightness(0.74) contrast(1.08) saturate(0.95) sepia(0.14);
+}
+
+/* From 1024px up the hero photo is shown whole and pinned right; its left
+   edge fades into the page (where the name sits) and its bottom into the band
+   below, so the frame has no visible edge. */
+@media (min-width: 1024px) {
+  .hero-wide-mask {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 42%),
+      linear-gradient(to top, transparent 0%, #000 22%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 42%),
+      linear-gradient(to top, transparent 0%, #000 22%);
+    mask-composite: intersect;
+  }
+}
+
+/* Same idea for the other photoshoot frames used as section backgrounds
+   (PhotoSplit), a shade darker because text sits right beside them. */
+.photo-tone {
+  filter: brightness(0.7) contrast(1.1) saturate(0.95) sepia(0.12);
+}
+
+/* Gallery-style tiles: toned at rest, full colour on hover. */
+.tile-tone {
+  filter: brightness(0.82) contrast(1.05) saturate(0.9) sepia(0.1);
+  transition:
+    filter 0.7s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .tile-tone,
+.group:focus-visible .tile-tone {
+  filter: none;
+}
+
+/* PhotoSplit from 1024px up: the frame dissolves into the page on its inner
+   edge and at top and bottom, so the section has no visible photo edge. */
+@media (min-width: 1024px) {
+  .photo-fade-left,
+  .photo-fade-right {
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  .photo-fade-left {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 38%),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 38%),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+  }
+
+  .photo-fade-right {
+    -webkit-mask-image:
+      linear-gradient(to left, transparent 0%, #000 38%),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+    mask-image:
+      linear-gradient(to left, transparent 0%, #000 38%),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+  }
+}
+
+/* Hero entrance — above the fold, so it runs on load rather than on scroll.
+   Opt-in only: with reduced motion the hero is simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-zoom {
+    animation: hero-zoom 2.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero-rise {
+    animation: hero-rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--rise-delay, 0s);
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Waveform: each bar breathes on its own offset, like a phrase rather than a
+   single mechanical pulse. Dividers idle slowly; card waveforms play only
+   while their card is hovered or focused. */
+@media (prefers-reduced-motion: no-preference) {
+  .wave-always rect,
+  .group:hover .wave-hover rect,
+  .group:focus-visible .wave-hover rect {
+    animation: wave-bar 1.6s ease-in-out infinite;
+    animation-delay: var(--bar-delay, 0s);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .wave-always rect {
+    animation-duration: 2.4s;
+  }
+}
+
+@keyframes wave-bar {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.35);
+  }
 }
 
 /* Grain over the flat black bands so they don't read as dead space. */

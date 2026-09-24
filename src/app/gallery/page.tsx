@@ -1,13 +1,8 @@
+import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/JsonLd";
 import PageHeader from "@/components/PageHeader";
 import PhotoCard from "@/components/PhotoCard";
-import CTASection from "@/components/CTASection";
-import JsonLd from "@/components/JsonLd";
-import FadeIn from "@/components/FadeIn";
-import {
-  breadcrumbSchema,
-  gallerySchema,
-  graph,
-} from "@/lib/jsonld";
+import { breadcrumbSchema, gallerySchema, graph } from "@/lib/jsonld";
 import { galleryPhotos } from "@/lib/photos";
 import { pageMetadata } from "@/lib/site";
 
@@ -15,10 +10,10 @@ export const metadata = pageMetadata({
   path: "/gallery",
   title: "Photo Gallery | Kaushik Bhat, Tabla Artist",
   description:
-    "Concert and studio photographs of tabla artist Kaushik Bhat, free to download in full resolution for press, posters and event listings.",
+    "Studio photographs of tabla artist Kaushik Bhat, free to download in full resolution for press, posters and event listings.",
   ogTitle: "Photo Gallery — Kaushik Bhat, Tabla Artist",
   ogDescription:
-    "Concert and studio photographs of Kaushik Bhat, downloadable in full resolution.",
+    "Studio photographs of Kaushik Bhat, downloadable in full resolution.",
 });
 
 export default function GalleryPage() {
@@ -32,19 +27,25 @@ export default function GalleryPage() {
       />
 
       <PageHeader
-        eyebrow="Photographs"
-        title="The"
-        highlight="Gallery"
-        intro="Concert and studio photographs, free to download in full resolution."
-        crumbs={[{ label: "Gallery", href: "/gallery" }]}
+        eyebrow=""
+        title=""
+        highlight=""
+        intro=""
       />
 
-      <section className="px-6 py-20">
+      <section className="px-6 pb-24 pt-4">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Two columns from the smallest width up — a single column of
+              near-identical portrait crops reads as one endless photo on a
+              phone, so pairs sit side by side even there. */}
+          <div className="columns-2 gap-3 lg:columns-3 lg:gap-4">
             {galleryPhotos.map((photo, index) => (
-              <FadeIn key={photo.id} delay={(index % 3) * 0.08}>
-                <PhotoCard photo={photo} priority={index < 3} />
+              <FadeIn
+                key={photo.id}
+                delay={(index % 3) * 0.08}
+                className="mb-3 break-inside-avoid lg:mb-4"
+              >
+                <PhotoCard photo={photo} eager={index < 3} />
               </FadeIn>
             ))}
           </div>
@@ -58,7 +59,10 @@ export default function GalleryPage() {
           >
             Photographs may be used for event promotion with credit to Kaushik
             Bhat. For other uses, please{" "}
-            <a href="/contact" className="font-semibold text-primary hover:underline">
+            <a
+              href="/contact"
+              className="font-semibold text-primary hover:underline"
+            >
               get in touch
             </a>
             .
@@ -66,13 +70,6 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <CTASection
-        eyebrow="Learn tabla"
-        title="Study with Kaushik in JP Nagar"
-        body="Tabla classes for all levels, in person in JP Nagar, Bangalore or online from anywhere."
-        primary={{ href: "/classes", label: "See class details" }}
-        secondary={{ href: "/performances", label: "Watch performances" }}
-      />
     </>
   );
 }

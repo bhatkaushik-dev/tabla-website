@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import PageHeader from "@/components/PageHeader";
-import PrintBioButton from "@/components/PrintBioButton";
-import AccentCard from "@/components/AccentCard";
-import SubHeading from "@/components/SubHeading";
-import CTASection from "@/components/CTASection";
-import JsonLd from "@/components/JsonLd";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/JsonLd";
+import PageHeader from "@/components/PageHeader";
+import PillButton from "@/components/PillButton";
+import PrintBioButton from "@/components/PrintBioButton";
+import SubHeading from "@/components/SubHeading";
 import { breadcrumbSchema, graph } from "@/lib/jsonld";
-import { aboutPhoto } from "@/lib/photos";
+import { playingPhoto, withTablaPhoto } from "@/lib/photos";
 import { pageMetadata, site } from "@/lib/site";
 
 export const metadata = pageMetadata({
@@ -24,15 +23,11 @@ export const metadata = pageMetadata({
     "Fourteen years under Pt Gurumurthy Vaidya, B-High graded artist of All India Radio, performing Hindustani classical music across India.",
 });
 
-const collaborators = [
-  "Pt Parameshwar Hegde",
-  "Ustaad Shafique Khan",
-  "Dr Ravindra Katoti",
-  "Vid Poornima Bhat Kulkarni",
-  "Padmashri Kanyakumari Avasarala",
-  "Pt Dhananjay Hegde",
-  "Pt Himanshu Nanda",
-  "Shri Koushik Aithal",
+const facts = [
+  { label: "Training", value: `${site.training.years}+ years` },
+  { label: "AIR grading", value: site.training.grade },
+  { label: "Guru", value: site.training.teacher },
+  { label: "Based in", value: `${site.address.locality}, Bangalore` },
 ];
 
 const repertoire = [
@@ -59,60 +54,76 @@ export default function AboutPage() {
         title="A Journey of"
         highlight="Dedication"
         intro="A tabla artist from Bangalore whose training began at home and has carried him to concert stages across India."
-        crumbs={[{ label: "About", href: "/about" }]}
-      />
+        photo={playingPhoto}
+        photoOptions={{ position: "50% 16%", mobilePosition: "50% 0%" }}
+      >
+        <PrintBioButton />
+        <PillButton href="/contact" variant="outline" size="default">
+          Book a concert
+        </PillButton>
+      </PageHeader>
 
-      <section className="px-6 py-20 print:px-0 print:py-0" data-print="page">
+      {/* The biography scrolls over the standing portrait, which stays pinned
+          to the viewport for the length of the section — sticky inside a
+          clipped layer the size of the section, rather than
+          background-attachment: fixed, which iOS ignores. clip-path rather
+          than overflow:hidden, which would break the sticky. */}
+      <section
+        className="relative isolate border-t border-accent/15"
+        data-print="page"
+      >
         <div
-          className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[0.8fr_1.2fr]"
-          data-print="stack"
+          aria-hidden
+          data-print="hide"
+          className="absolute inset-0 -z-10 [clip-path:inset(0)]"
         >
-          <div>
-            <div className="sticky top-28 print:static">
-              <div
-                data-print="photo"
-                className="gold-border relative aspect-4/5 overflow-hidden rounded-[2.5rem]"
-              >
-                <Image
-                  src={aboutPhoto.src}
-                  alt={aboutPhoto.alt}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 35vw"
-                  className="object-cover"
-                />
-              </div>
-
-              <dl className="mt-6 grid grid-cols-2 gap-4">
-                <AccentCard className="px-4 py-4">
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    Training
-                  </dt>
-                  <dd className="mt-1 font-serif text-2xl font-bold text-primary">
-                    {site.training.years}+ years
-                  </dd>
-                </AccentCard>
-                <AccentCard className="px-4 py-4">
-                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    AIR grading
-                  </dt>
-                  <dd className="mt-1 font-serif text-2xl font-bold text-primary">
-                    {site.training.grade}
-                  </dd>
-                </AccentCard>
-              </dl>
-
-              <div className="mt-6" data-print="hide">
-                <PrintBioButton />
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Opens your browser&rsquo;s print dialog — choose
-                  &ldquo;Save as PDF&rdquo; for a one-page press bio.
-                </p>
-              </div>
+          <div className="sticky top-0 h-svh">
+            <div className="photo-fade-left absolute inset-y-0 right-0 w-full lg:w-[68%]">
+              <Image
+                src={playingPhoto.src}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 68vw, 100vw"
+                className="photo-tone object-cover object-[62%_12%] lg:object-[50%_14%]"
+              />
             </div>
+            {/* Phones: the text runs over the whole frame, so dim it evenly. */}
+            <div className="absolute inset-0 bg-background/75 lg:hidden" />
+            {/* Desktop: a wash behind the text column only. */}
+            <div className="absolute inset-0 hidden bg-linear-to-r from-background via-background/85 to-transparent lg:block lg:w-[62%]" />
           </div>
+        </div>
 
-          <div className="space-y-14">
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:py-32 print:px-0 print:py-0">
+          <div className="space-y-16 lg:w-[48%] print:w-auto" data-print="stack">
+            {/* The screen photographs are decorative, so the printed bio
+                carries its own portrait. */}
+            <div
+              data-print="photo"
+              className="relative hidden aspect-4/5 print:block"
+            >
+              <Image
+                src={withTablaPhoto.src}
+                alt={withTablaPhoto.alt}
+                fill
+                sizes="42mm"
+                className="object-cover object-top"
+              />
+            </div>
+
+            <dl className="grid grid-cols-2 gap-px overflow-hidden border border-accent/20 bg-accent/20">
+              {facts.map((fact) => (
+                <div key={fact.label} className="bg-background/80 px-5 py-4 backdrop-blur-sm">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                    {fact.label}
+                  </dt>
+                  <dd className="mt-1 font-serif text-lg text-foreground">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
             <FadeIn as="section">
               <SubHeading>Musical Roots</SubHeading>
               <div className="mt-6 space-y-5 leading-relaxed text-muted-foreground md:text-lg">
@@ -139,37 +150,16 @@ export default function AboutPage() {
             </FadeIn>
 
             <FadeIn as="section">
-              <SubHeading>Collaborations</SubHeading>
-              <p className="mt-6 leading-relaxed text-muted-foreground md:text-lg">
-                Kaushik has shared the stage with masters of the craft:
-              </p>
-              <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                {collaborators.map((artist) => (
-                  <li
-                    key={artist}
-                    className="flex items-center gap-2.5 border-b border-accent/15 pb-3 text-foreground"
-                  >
-                    <span
-                      aria-hidden
-                      className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                    />
-                    {artist}
-                  </li>
-                ))}
-              </ul>
-            </FadeIn>
-
-            <FadeIn as="section">
               <SubHeading>Repertoire</SubHeading>
               <p className="mt-6 leading-relaxed text-muted-foreground md:text-lg">
                 Equally at home accompanying a khayal recital, a Kathak
-                performance or a devotional concert:
+                performance or a devotional concert.
               </p>
               <ul className="mt-6 flex flex-wrap gap-2.5">
                 {repertoire.map((item) => (
                   <li
                     key={item}
-                    className="gold-border rounded-full bg-secondary px-4 py-2 text-sm font-medium text-foreground"
+                    className="rounded-full border border-accent/30 px-4 py-2 text-sm text-foreground"
                   >
                     {item}
                   </li>
@@ -179,37 +169,24 @@ export default function AboutPage() {
 
             <FadeIn as="section">
               <SubHeading>Teaching</SubHeading>
-              <div className="mt-6 space-y-5 leading-relaxed text-muted-foreground md:text-lg">
-                <p>
-                  Beyond performance, Kaushik is passionate about passing on the
-                  tradition. He conducts{" "}
-                  <strong className="font-semibold text-foreground">
-                    tabla classes in JP Nagar, Bangalore
-                  </strong>
-                  , for students from complete beginner to advanced, blending
-                  traditional training with a modern understanding of rhythm.
-                </p>
-                <p data-print="hide">
-                  <Link
-                    href="/classes"
-                    className="font-semibold text-primary hover:underline"
-                  >
-                    See class details, timings and fees →
-                  </Link>
-                </p>
-              </div>
+              <p className="mt-6 leading-relaxed text-muted-foreground md:text-lg">
+                He teaches{" "}
+                <strong className="font-semibold text-foreground">
+                  tabla classes in JP Nagar, Bangalore
+                </strong>{" "}
+                and online, from complete beginners to advanced students.{" "}
+                <Link
+                  href="/classes"
+                  data-print="hide"
+                  className="font-semibold text-primary hover:underline"
+                >
+                  Class details →
+                </Link>
+              </p>
             </FadeIn>
           </div>
         </div>
       </section>
-
-      <CTASection
-        eyebrow="Bookings"
-        title="Available for concerts and accompaniment"
-        body="Solo tabla, classical accompaniment, Kathak, devotional and studio sessions — in Bangalore and beyond."
-        primary={{ href: "/contact", label: "Enquire about a booking" }}
-        secondary={{ href: "/performances", label: "Watch performances" }}
-      />
     </>
   );
 }

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { MessageCircle } from "lucide-react";
-import { domain, mailtoLink, site, whatsappLink } from "@/lib/site";
+import { domain, mailtoLink, site, telLink, whatsappLink } from "@/lib/site";
 import { pillClasses } from "./PillButton";
 
 const enquiries = [
@@ -129,9 +129,12 @@ export default function ContactForm() {
         Send via WhatsApp
       </button>
 
-      <p className="text-xs text-muted-foreground">
-        This opens WhatsApp with your message ready to send to{" "}
-        {site.phoneDisplay}. Prefer email?{" "}
+      <p className="text-sm text-muted-foreground">
+        Or call{" "}
+        <a href={telLink()} className="font-semibold text-primary hover:underline">
+          {site.phoneDisplay}
+        </a>{" "}
+        ·{" "}
         <a
           href={mailtoLink()}
           className="font-semibold text-primary hover:underline"

@@ -1,6 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
+import { pillClasses } from "./PillButton";
 
 /**
  * "Download bio" = browser print-to-PDF against the @media print rules in
@@ -13,10 +14,10 @@ export default function PrintBioButton() {
       type="button"
       onClick={() => window.print()}
       data-print="hide"
-      className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+      className={pillClasses({ size: "default" })}
     >
       <Download size={16} aria-hidden />
-      Download bio (PDF)
+      Download bio
     </button>
   );
 }
