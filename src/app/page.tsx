@@ -4,11 +4,10 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import Hero from "@/components/Hero";
 import FadeIn from "@/components/FadeIn";
-import PhotoSplit from "@/components/PhotoSplit";
 import Waveform, { WaveDivider } from "@/components/Waveform";
 import { Eyebrow, Highlight } from "@/components/SectionHeading";
 import {
-  creamKurtaPhoto,
+  heroWidePhoto,
   playingPhoto,
   teachingPhoto,
   withTablaPhoto,
@@ -38,7 +37,7 @@ const sections = [
   {
     href: "/classes",
     title: "Tabla Classes",
-    body: "Beginner to advanced — JP Nagar, or online.",
+    body: "Tabla classes in JP Nagar, beginner to advanced — or online.",
     photo: teachingPhoto,
     position: "object-[50%_40%]",
   },
@@ -51,26 +50,23 @@ export default function Home() {
 
       <WaveDivider />
 
-      {/* Biography. On phones the text leads, so the hero photograph above
-          and this one are never stacked back to back. */}
-      <PhotoSplit
-        photo={creamKurtaPhoto}
-        side="left"
-        position="50% 30%"
-        mobilePosition="50% 12%"
-        width="lg:w-[52%]"
-        contentWidth="lg:w-[46%]"
-        mobileTextFirst
-        className="lg:min-h-192"
-      >
+      {/* Biography. From 1024px up the photograph is pinned to the right
+          edge, its left edge dissolving into the page, and the text sits in
+          the dark on the left, aligned to the content column. On phones the
+          text leads, so the hero photograph above and this one are never
+          stacked back to back. */}
+      <section className="relative isolate flex flex-col overflow-hidden bg-background">
+        <div className="relative z-10 px-6 pb-4 pt-6 lg:absolute lg:inset-y-0 lg:left-[max(1.5rem,calc((100%-80rem)/2+1.5rem))] lg:flex lg:w-[min(24rem,30%)] lg:items-center lg:px-0 lg:py-0">
         <FadeIn>
           <Eyebrow>About</Eyebrow>
-          <h2 className="mt-6 font-serif text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
-            Learning, performing,
+          <h2 className="mt-6 font-serif text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-4xl xl:text-5xl 2xl:text-6xl">
+            Learning,
+            <br />
+            performing,
             <br />
             <Highlight>teaching.</Highlight>
           </h2>
-          <p className="mt-8 max-w-md leading-relaxed text-muted-foreground md:text-lg">
+          <p className="mt-8 max-w-md leading-relaxed text-muted-foreground md:text-lg lg:mt-6 lg:text-base xl:text-lg">
             He started learning tabla at {site.training.startAge} from his
             father,{" "}
             <span className="text-foreground">{site.training.father}</span>,
@@ -82,7 +78,7 @@ export default function Home() {
           </p>
           <Link
             href="/about"
-            className="group mt-10 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary transition-colors hover:text-foreground"
+            className="group mt-10 inline-flex lg:mt-8 items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary transition-colors hover:text-foreground"
           >
             Read the biography
             <ArrowRight
@@ -91,14 +87,38 @@ export default function Home() {
             />
           </Link>
         </FadeIn>
-      </PhotoSplit>
+        </div>
+
+        {/* The whole frame, only the empty sweep above his head trimmed on
+            wide screens. Thin fades over the backdrop only. */}
+        <div className="photo-fade-left relative -z-10 aspect-4/3 w-full overflow-hidden sm:aspect-3/2 lg:ml-auto lg:w-[66%] lg:aspect-17/10">
+          <Image
+            src={heroWidePhoto.src}
+            alt={heroWidePhoto.alt}
+            fill
+            sizes="(min-width: 1024px) 66vw, 100vw"
+            className="photo-tone object-cover object-bottom"
+          />
+          <div aria-hidden className="absolute inset-x-0 top-0 h-1/4 bg-linear-to-b from-background to-transparent lg:hidden" />
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-[12%] bg-linear-to-t from-background to-transparent lg:hidden" />
+          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_55%,var(--background)_100%)] opacity-60 lg:hidden" />
+          <div aria-hidden className="absolute inset-0 hidden bg-[radial-gradient(ellipse_at_50%_55%,transparent_62%,var(--background)_100%)] opacity-60 lg:block" />
+        </div>
+      </section>
 
       <WaveDivider />
 
       {/* Three doors into the rest of the site. Photo cards from 640px up;
           on phones each becomes a compact row with a small thumbnail, so
           large photographs never stack one after another. */}
-      <nav aria-label="Explore" className="px-6 pb-20 pt-4 sm:pb-28">
+      <nav aria-labelledby="explore-heading" className="px-6 pb-20 pt-4 sm:pb-28">
+        <h2
+          id="explore-heading"
+          className="mx-auto mb-10 max-w-6xl text-center font-serif text-3xl font-bold tracking-tight md:text-4xl"
+        >
+          Learn tabla in
+          <Highlight>South Bengaluru</Highlight>
+        </h2>
         <ul className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3 sm:gap-6">
           {sections.map((section, index) => (
             <FadeIn as="li" key={section.href} delay={index * 0.06}>

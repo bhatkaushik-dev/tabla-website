@@ -27,7 +27,7 @@ const facts = [
   { label: "Training", value: `${site.training.years}+ years` },
   { label: "AIR grading", value: site.training.grade },
   { label: "Guru", value: site.training.teacher },
-  { label: "Based in", value: `${site.address.locality}, Bangalore` },
+  { label: "Based in", value: `${site.address.area}, Bengaluru` },
 ];
 
 const repertoire = [
@@ -90,7 +90,7 @@ export default function AboutPage() {
             {/* Phones: the text runs over the whole frame, so dim it evenly. */}
             <div className="absolute inset-0 bg-background/75 lg:hidden" />
             {/* Desktop: a wash behind the text column only. */}
-            <div className="absolute inset-0 hidden bg-linear-to-r from-background via-background/85 to-transparent lg:block lg:w-[62%]" />
+            <div className="absolute inset-0 hidden bg-linear-to-r from-background via-background/85 to-transparent lg:block lg:w-[52%]" />
           </div>
         </div>
 

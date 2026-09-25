@@ -181,18 +181,24 @@ body {
   filter: brightness(0.74) contrast(1.08) saturate(0.95) sepia(0.14);
 }
 
+@media (min-width: 1024px) {
+  .hero-tone {
+    filter: brightness(0.68) contrast(1.1) saturate(0.95) sepia(0.14);
+  }
+}
+
 /* From 1024px up the hero photo is shown whole and pinned right; its left
    edge fades into the page (where the name sits) and its bottom into the band
    below, so the frame has no visible edge. */
 @media (min-width: 1024px) {
   .hero-wide-mask {
     -webkit-mask-image:
-      linear-gradient(to right, transparent 0%, #000 42%),
-      linear-gradient(to top, transparent 0%, #000 22%);
+      linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.35) 6%, rgb(0 0 0 / 0.75) 13%, #000 22%),
+      linear-gradient(to top, transparent 0%, rgb(0 0 0 / 0.3) 5%, rgb(0 0 0 / 0.75) 11%, #000 18%);
     -webkit-mask-composite: source-in;
     mask-image:
-      linear-gradient(to right, transparent 0%, #000 42%),
-      linear-gradient(to top, transparent 0%, #000 22%);
+      linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.35) 6%, rgb(0 0 0 / 0.75) 13%, #000 22%),
+      linear-gradient(to top, transparent 0%, rgb(0 0 0 / 0.3) 5%, rgb(0 0 0 / 0.75) 11%, #000 18%);
     mask-composite: intersect;
   }
 }
@@ -217,7 +223,8 @@ body {
 }
 
 /* PhotoSplit from 1024px up: the frame dissolves into the page on its inner
-   edge and at top and bottom, so the section has no visible photo edge. */
+   edge and at top and bottom, so the section has no visible photo edge. The
+   bands are kept thin so only backdrop fades — never the artist or the drums. */
 @media (min-width: 1024px) {
   .photo-fade-left,
   .photo-fade-right {
@@ -227,21 +234,34 @@ body {
 
   .photo-fade-left {
     -webkit-mask-image:
-      linear-gradient(to right, transparent 0%, #000 38%),
-      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+      linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.35) 6%, rgb(0 0 0 / 0.75) 12%, #000 20%),
+      linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.3) 5%, rgb(0 0 0 / 0.75) 11%, #000 18%, #000 84%, rgb(0 0 0 / 0.75) 90%, rgb(0 0 0 / 0.3) 95%, transparent 100%);
     mask-image:
-      linear-gradient(to right, transparent 0%, #000 38%),
-      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+      linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.35) 6%, rgb(0 0 0 / 0.75) 12%, #000 20%),
+      linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.3) 5%, rgb(0 0 0 / 0.75) 11%, #000 18%, #000 84%, rgb(0 0 0 / 0.75) 90%, rgb(0 0 0 / 0.3) 95%, transparent 100%);
   }
 
   .photo-fade-right {
     -webkit-mask-image:
-      linear-gradient(to left, transparent 0%, #000 38%),
-      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+      linear-gradient(to left, transparent 0%, rgb(0 0 0 / 0.35) 6%, rgb(0 0 0 / 0.75) 12%, #000 20%),
+      linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.3) 5%, rgb(0 0 0 / 0.75) 11%, #000 18%, #000 84%, rgb(0 0 0 / 0.75) 90%, rgb(0 0 0 / 0.3) 95%, transparent 100%);
     mask-image:
-      linear-gradient(to left, transparent 0%, #000 38%),
-      linear-gradient(to bottom, transparent 0%, #000 14%, #000 78%, transparent 100%);
+      linear-gradient(to left, transparent 0%, rgb(0 0 0 / 0.35) 6%, rgb(0 0 0 / 0.75) 12%, #000 20%),
+      linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.3) 5%, rgb(0 0 0 / 0.75) 11%, #000 18%, #000 84%, rgb(0 0 0 / 0.75) 90%, rgb(0 0 0 / 0.3) 95%, transparent 100%);
   }
+}
+
+/* A framed photo whose four edges dissolve into the page — thin bands over
+   the backdrop only. */
+.photo-fade-edges {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 94%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 94%, transparent 100%);
+  mask-composite: intersect;
 }
 
 /* Hero entrance — above the fold, so it runs on load rather than on scroll.

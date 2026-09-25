@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 
 import ContactForm from "@/components/ContactForm";
 import JsonLd from "@/components/JsonLd";
@@ -9,21 +10,21 @@ import {
   musicSchoolSchema,
 } from "@/lib/jsonld";
 import { withTablaPhoto } from "@/lib/photos";
-import { pageMetadata } from "@/lib/site";
+import { fullAddress, pageMetadata, site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   path: "/contact",
-  title: "Contact | Kaushik Bhat, Tabla Artist Bangalore",
+  title: "Contact | Tabla Classes in JP Nagar, Bengaluru — Kaushik Bhat",
   description:
-    "Contact tabla artist Kaushik Bhat in JP Nagar, Bangalore for class enrolment, concert bookings and accompaniment enquiries. WhatsApp, phone and email.",
-  ogTitle: "Contact Kaushik Bhat — Tabla Artist, Bangalore",
+    "Enquire about tabla classes in JP Nagar, South Bengaluru. Classes are held inside Swara Hindustani Classical Music School, JP Nagar 1st Phase. WhatsApp, phone or email.",
+  ogTitle: "Contact Kaushik Bhat — Tabla Classes in JP Nagar, Bengaluru",
   ogDescription:
-    "Class enrolment, concert bookings and accompaniment enquiries — JP Nagar, Bangalore.",
+    "Class enrolment, concert bookings and accompaniment — Swara Hindustani Classical Music School, JP Nagar 1st Phase, Bengaluru.",
 });
 
 /** Fades all four edges of the photo into the page, keeping the frame whole. */
 const EDGE_FADE =
-  "linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent, #000 10%, #000 88%, transparent)";
+  "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)";
 
 /**
  * One screen: the photograph whole on the left, the form on the right. The
@@ -71,6 +72,36 @@ export default function ContactPage() {
             </h1>
             <div className="mt-10">
               <ContactForm />
+            </div>
+
+            {/* Location. The address is written exactly as the host school
+                publishes it — the same string as the footer and JSON-LD. */}
+            <div className="mt-12 border-t border-accent/20 pt-8">
+              <h2 className="eyebrow">Where classes are held</h2>
+              <div className="mt-4 flex gap-3">
+                <MapPin size={18} aria-hidden className="mt-1 shrink-0 text-accent" />
+                <div>
+                  <address className="not-italic leading-relaxed text-foreground">
+                    {site.address.venue}
+                    <br />
+                    {site.address.street}, {site.address.locality}
+                    <br />
+                    {site.address.city} {site.address.postalCode},{" "}
+                    {site.address.region}
+                  </address>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Classes are held inside the {site.address.venue}.
+                  </p>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
+                  >
+                    Get directions →
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ export const faqs: Faq[] = [
   {
     question: "Where are the tabla classes held in Bangalore?",
     answer:
-      "Classes are held in JP Nagar, Bangalore. The location is convenient for students from JP Nagar, Jayanagar, Banashankari, BTM Layout and Bannerghatta Road. Exact directions are shared once a slot is confirmed.",
+      "Classes are held inside the Swara Hindustani Classical Music School, #38, 3rd Main, Sarakki, JP Nagar 1st Phase, Bengaluru 560078. It is convenient for students across South Bengaluru — JP Nagar, Jayanagar, Banashankari, BTM Layout and Bannerghatta Road.",
   },
   {
     question: "Do you teach complete beginners?",

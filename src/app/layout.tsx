@@ -31,22 +31,23 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Kaushik Bhat | Tabla Artist & Tabla Classes in Bangalore",
+    default: "Kaushik Bhat | Expert Tabla Instructor in Bangalore",
     template: "%s | Kaushik Bhat Tabla",
   },
   description:
-    "Kaushik Bhat is a B-High graded tabla artist of All India Radio, performing Hindustani classical music and teaching tabla classes in JP Nagar, Bangalore.",
+    "Learn tabla in South Bengaluru with Kaushik Bhat, a B-High graded All India Radio artist. Tabla classes in JP Nagar for all levels, in person or online.",
   applicationName: site.shortName,
   keywords: [
     "Kaushik Bhat",
     "Kaushik Bhat Tabla",
     "Kaushik G Bhat",
-    "Tabla artist Bangalore",
     "Tabla classes in JP Nagar",
-    "Tabla classes in Bangalore",
+    "Tabla classes near me",
+    "Learn tabla in South Bengaluru",
+    "Expert tabla instructor in Bangalore",
     "Tabla teacher JP Nagar",
-    "Tabla lessons Bangalore",
-    "Learn tabla Bangalore",
+    "Tabla classes in Bangalore",
+    "Tabla artist Bangalore",
     "Online tabla classes",
     "Indian classical music",
     "Hindustani classical tabla",
@@ -64,15 +65,15 @@ export const metadata: Metadata = {
     siteName: `${site.name} — ${site.role}`,
     locale: site.locale,
     url: site.url,
-    title: "Kaushik Bhat | Tabla Artist & Tabla Classes in Bangalore",
+    title: "Kaushik Bhat | Expert Tabla Instructor in Bangalore",
     description:
-      "B-High graded tabla artist of All India Radio. Hindustani classical performances and tabla classes in JP Nagar, Bangalore.",
+      "Tabla classes in JP Nagar, South Bengaluru, with B-High graded All India Radio artist Kaushik Bhat.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kaushik Bhat | Tabla Artist & Teacher, Bangalore",
+    title: "Kaushik Bhat | Expert Tabla Instructor in Bangalore",
     description:
-      "B-High graded tabla artist of All India Radio. Performances and tabla classes in JP Nagar, Bangalore.",
+      "Tabla classes in JP Nagar, South Bengaluru, with B-High graded All India Radio artist Kaushik Bhat.",
   },
   robots: {
     index: true,

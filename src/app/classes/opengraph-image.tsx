@@ -7,6 +7,6 @@ export const contentType = OG_CONTENT_TYPE;
 export default async function Image() {
   return renderOgImage({
     title: "Tabla Classes in JP Nagar",
-    subtitle: "Beginner to advanced · In-person & online · Bangalore",
+    subtitle: "Beginner to advanced · In person & online · South Bengaluru",
   });
 }

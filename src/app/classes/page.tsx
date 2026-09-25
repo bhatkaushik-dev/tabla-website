@@ -22,22 +22,24 @@ import { pageMetadata, site, telLink, whatsappLink } from "@/lib/site";
 
 export const metadata = pageMetadata({
   path: "/classes",
-  title: "Tabla Classes in JP Nagar, Bangalore | Kaushik Bhat",
+  title: "Tabla Classes in JP Nagar, South Bengaluru | Kaushik Bhat",
   description:
-    "Learn tabla in JP Nagar, Bangalore with Kaushik Bhat, a B-High graded artist of All India Radio. Beginner to advanced, in-person and online classes, weekday evening and weekend slots.",
+    "Tabla classes in JP Nagar with Kaushik Bhat, a B-High graded All India Radio artist. Learn tabla in South Bengaluru, beginner to advanced, in person or online.",
   keywords: [
     "tabla classes in JP Nagar",
-    "tabla classes in Bangalore",
+    "tabla classes near me",
+    "learn tabla in South Bengaluru",
+    "expert tabla instructor in Bangalore",
     "tabla teacher JP Nagar",
-    "tabla lessons Bangalore",
-    "learn tabla in Bangalore",
+    "tabla classes JP Nagar 1st Phase",
+    "tabla classes in Bangalore",
     "online tabla classes",
     "tabla classes Jayanagar",
-    "tabla classes Bannerghatta Road",
+    "tabla classes Banashankari",
   ],
-  ogTitle: "Tabla Classes in JP Nagar, Bangalore | Kaushik Bhat",
+  ogTitle: "Tabla Classes in JP Nagar, South Bengaluru | Kaushik Bhat",
   ogDescription:
-    "Beginner to advanced tabla classes in JP Nagar, Bangalore — in person and online — with All India Radio B-High graded artist Kaushik Bhat.",
+    "Learn tabla in South Bengaluru — beginner to advanced tabla classes in JP Nagar, in person or online, with B-High graded All India Radio artist Kaushik Bhat.",
 });
 
 const levels = [
@@ -61,8 +63,8 @@ const levels = [
 const formats = [
   {
     Icon: MapPin,
-    title: "In person, JP Nagar",
-    body: "Close to Jayanagar, Banashankari and BTM Layout.",
+    title: "In person, JP Nagar 1st Phase",
+    body: "Inside Swara Hindustani Classical Music School — near Jayanagar, Banashankari and BTM Layout.",
   },
   {
     Icon: Monitor,
@@ -92,8 +94,9 @@ export default function ClassesPage() {
 
       <PageHeader
         eyebrow="Learn tabla"
-        title="Tabla Classes"
-        intro={`Learn from a ${site.training.grade} graded artist of ${site.training.gradingBody} — in person in Bangalore, or online. Complete beginners welcome.`}
+        title="Tabla Classes in"
+        highlight={"JP\u00a0Nagar"}
+        intro={`Learn tabla in South Bengaluru from a ${site.training.grade} graded ${site.training.gradingBody} artist — in person in JP Nagar 1st Phase, or online. Complete beginners welcome.`}
         photo={gesturePhoto}
         photoOptions={{
           side: "left",

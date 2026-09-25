@@ -22,7 +22,7 @@ export const WEBSITE_ID = `${site.url}/#website`;
 
 const postalAddress = {
   "@type": "PostalAddress",
-  streetAddress: site.address.locality,
+  streetAddress: `${site.address.street}, ${site.address.locality}`,
   addressLocality: site.address.city,
   addressRegion: site.address.region,
   postalCode: site.address.postalCode,
@@ -38,7 +38,7 @@ export const personSchema = () => ({
   image: abs(heroPortraitPhoto.src),
   jobTitle: site.role,
   description:
-    "B-High graded tabla artist of All India Radio, performing Hindustani classical music and teaching tabla in JP Nagar, Bangalore.",
+    "Expert tabla instructor in Bangalore and B-High graded tabla artist of All India Radio, teaching tabla classes in JP Nagar, South Bengaluru.",
   address: postalAddress,
   sameAs,
   knowsAbout: [
@@ -64,15 +64,25 @@ export const websiteSchema = () => ({
   publisher: { "@id": PERSON_ID },
 });
 
-/** The teaching practice. Carries the local-search signals for JP Nagar. */
+/**
+ * The teaching practice — the local-search entity for JP Nagar.
+ *
+ * There is deliberately no Google Business Profile behind this (classes run
+ * inside another school's premises), so it carries NO `hasMap` and NO
+ * `sameAs` pointing at a Maps listing: the address, the geo pin and the
+ * venue are the whole geographic signal. `MusicSchool` for the category;
+ * `LocalBusiness` alongside it because opening hours, price range and geo
+ * are LocalBusiness properties that MusicSchool alone doesn't carry.
+ */
 export const musicSchoolSchema = () => ({
   "@type": ["MusicSchool", "LocalBusiness"],
   "@id": SCHOOL_ID,
   name: "Kaushik Bhat Tabla Classes",
+  alternateName: "Tabla Classes in JP Nagar",
   url: abs("/classes"),
   image: abs(teachingPhoto.src),
   description:
-    "Tabla classes in JP Nagar, Bangalore for beginners to advanced students, taught by B-High graded All India Radio artist Kaushik Bhat. In-person and online lessons.",
+    "Tabla classes in JP Nagar, South Bengaluru, for beginners to advanced students, taught by Kaushik Bhat, a B-High graded tabla artist of All India Radio. Classes are held inside the Swara Hindustani Classical Music School; online lessons are also available.",
   founder: { "@id": PERSON_ID },
   employee: { "@id": PERSON_ID },
   address: postalAddress,
@@ -80,6 +90,17 @@ export const musicSchoolSchema = () => ({
     "@type": "GeoCoordinates",
     latitude: site.geo.latitude,
     longitude: site.geo.longitude,
+  },
+  // Where the lessons physically happen: the host school's premises.
+  location: {
+    "@type": "Place",
+    name: site.address.venue,
+    address: postalAddress,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: site.geo.latitude,
+      longitude: site.geo.longitude,
+    },
   },
   areaServed: site.areaServed.map((name) => ({ "@type": "Place", name })),
   telephone: `+${site.phone}`,

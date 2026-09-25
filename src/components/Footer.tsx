@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { nav, site } from "@/lib/site";
+import { fullAddress, nav, site } from "@/lib/site";
 import SocialLinks from "./SocialLinks";
 
 /**
@@ -34,9 +34,13 @@ export default function Footer() {
         <SocialLinks />
       </div>
 
-      <p className="mx-auto mt-8 max-w-7xl text-center text-xs text-muted-foreground md:text-left">
-        © {new Date().getFullYear()} {site.name}. All rights reserved.
-      </p>
+      <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-2 text-center text-xs text-muted-foreground md:flex-row md:justify-between md:text-left">
+        {/* The same address string as the contact page and the JSON-LD. */}
+        <address className="not-italic">Tabla classes at {fullAddress}</address>
+        <p>
+          © {new Date().getFullYear()} {site.name}. All rights reserved.
+        </p>
+      </div>
     </footer>
   );
 }

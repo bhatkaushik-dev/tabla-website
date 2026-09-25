@@ -11,7 +11,7 @@ export const site = {
   name: "Kaushik Bhat",
   shortName: "Kaushik Bhat Tabla",
   role: "Tabla Artist & Teacher",
-  tagline: "Tabla artist & teacher, Bangalore",
+  tagline: "Tabla instructor, JP Nagar, Bengaluru",
   locale: "en_IN",
 
   email: "kaushikgb99@gmail.com",
@@ -19,23 +19,37 @@ export const site = {
   phone: "919110691605",
   phoneDisplay: "+91 91106 91605",
 
+  /**
+   * Classes are held inside Swara Hindustani Classical Music School, so this is
+   * the school's address, exactly as it publishes it on its own website. Keep
+   * every copy of it (site, JSON-LD, directory listings) character-for-
+   * character identical — consistency is the local-ranking signal.
+   */
   address: {
-    locality: "JP Nagar",
+    venue: "Swara Hindustani Classical Music School",
+    street: "#38, 3rd Main, Sarakki",
+    locality: "JP Nagar 1st Phase",
+    /** Short form for running copy ("tabla classes in JP Nagar"). */
+    area: "JP Nagar",
     city: "Bengaluru",
     region: "Karnataka",
     postalCode: "560078",
     country: "IN",
   },
-  /** Approximate JP Nagar centre — used for LocalBusiness geo. */
+  /**
+   * TODO: still the approximate JP Nagar centre, not the building. Replace
+   * with the school's exact pin (Google Maps → long-press the building →
+   * copy the "12.9…, 77.5…" pair).
+   */
   geo: { latitude: 12.9063, longitude: 77.5857 },
   areaServed: [
     "JP Nagar",
     "Jayanagar",
-    "Bannerghatta Road",
     "Banashankari",
     "BTM Layout",
+    "Bannerghatta Road",
+    "South Bengaluru",
     "Bengaluru",
-    "banglore"
   ],
 
   social: {
@@ -87,6 +101,14 @@ export const sameAs = [
 
 export const whatsappLink = (message?: string) =>
   `https://wa.me/${site.phone}${message ? `?text=${encodeURIComponent(message)}` : ""}`;
+
+/** The postal address on one line, as shown on the contact page and footer. */
+export const fullAddress = [
+  site.address.venue,
+  site.address.street,
+  site.address.locality,
+  `${site.address.city} ${site.address.postalCode}`,
+].join(", ");
 
 export const telLink = () => `tel:+${site.phone}`;
 export const mailtoLink = () => `mailto:${site.email}`;
