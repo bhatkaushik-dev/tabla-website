@@ -1,10 +1,18 @@
 import type { CSSProperties } from "react";
 import { getImageProps } from "next/image";
 import PillButton from "./PillButton";
+import Waveform, { WaveBackdrop } from "./Waveform";
 import { heroPortraitPhoto } from "@/lib/photos";
+import { site } from "@/lib/site";
 
 const rise = (delay: number) =>
   ({ "--rise-delay": `${delay}s` }) as CSSProperties;
+
+const facts = [
+  { label: "Training", value: `${site.training.years}+ years` },
+  { label: site.training.gradingBody, value: `${site.training.grade} graded` },
+  { label: "Guru", value: site.training.teacher },
+];
 
 /**
  * Photographic hero. Server component — the LCP image and the h1 are in the
@@ -32,6 +40,14 @@ export default function Hero() {
 
   return (
     <section className="relative isolate flex w-full flex-col overflow-hidden bg-background lg:min-h-svh lg:flex-row lg:items-center">
+      {/* Depth behind the name: a warm glow and a long, faint waveform that
+          runs from the left edge into the photo's faded side. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-20 bg-[radial-gradient(ellipse_45%_50%_at_22%_50%,color-mix(in_srgb,var(--accent)_11%,transparent),transparent_70%)] max-lg:bg-[radial-gradient(ellipse_70%_30%_at_50%_18%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_70%)]"
+      />
+      <WaveBackdrop className="absolute inset-x-0 top-24 -z-20 h-32 w-full text-accent/10 sm:top-28 sm:h-36 lg:top-1/2 lg:h-72 lg:w-[62%] lg:-translate-y-1/2" />
+
       {/* Type. Centred above the photo on phones and tablets; left column over
           the dark side of the photo from 1024px up. */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 text-center sm:pt-32 lg:py-32 lg:text-left">
@@ -52,29 +68,33 @@ export default function Hero() {
             style={rise(0.35)}
           >
             <span aria-hidden className="hidden h-px w-8 bg-primary/60 sm:block lg:w-12" />
-            Tabla Instructor · JP Nagar, Bengaluru
+            Tabla Artist | Percussionist 
             <span aria-hidden className="hidden h-px w-8 bg-primary/60 sm:block lg:hidden" />
           </span>
         </h1>
 
-        <div
-          className="hero-rise mt-7 flex items-center justify-center gap-3 sm:gap-4 lg:mt-9 lg:justify-start"
+        <Waveform
+          animate="always"
+          className="hero-rise mx-auto mt-6 block h-6 w-32 text-accent/80 lg:mx-0 lg:mt-8"
           style={rise(0.5)}
+        />
+
+        {/* Credentials, desktop only — on phones the photo follows at once. */}
+        <dl
+          className="hero-rise mt-12 hidden max-w-xl grid-cols-[auto_auto_1fr] gap-10 border-t border-accent/20 pt-7 lg:grid"
+          style={rise(0.65)}
         >
-          <PillButton
-            href="/performances"
-            className="whitespace-nowrap px-5 py-3 text-xs tracking-[0.12em] sm:px-10 sm:py-4 lg:px-8 xl:px-10 sm:text-sm sm:tracking-[0.15em]"
-          >
-            View Performances
-          </PillButton>
-          <PillButton
-            href="/about"
-            variant="outline"
-            className="whitespace-nowrap px-5 py-3 text-xs tracking-[0.12em] sm:px-10 sm:py-4 lg:px-8 xl:px-10 sm:text-sm sm:tracking-[0.15em]"
-          >
-            Biography
-          </PillButton>
-        </div>
+          {facts.map((fact) => (
+            <div key={fact.label}>
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                {fact.label}
+              </dt>
+              <dd className="mt-1.5 font-serif text-lg leading-snug text-foreground">
+                {fact.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
       {/* Photo. The box is cropped to the band from just above his head to

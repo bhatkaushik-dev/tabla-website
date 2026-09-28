@@ -4,6 +4,7 @@ import VideoCard from "@/components/VideoCard";
 import PillButton from "@/components/PillButton";
 import JsonLd from "@/components/JsonLd";
 import FadeIn from "@/components/FadeIn";
+import { WaveDivider } from "@/components/Waveform";
 import { breadcrumbSchema, graph, videoSchemas } from "@/lib/jsonld";
 import { videos } from "@/lib/videos";
 import { playingPhoto } from "@/lib/photos";
@@ -47,6 +48,8 @@ export default function PerformancesPage() {
         </PillButton>
       </PageHeader>
 
+      <WaveDivider />
+
       <section className="px-6 pb-24 pt-4 sm:pt-8">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-x-10 gap-y-14 md:grid-cols-2">
@@ -57,7 +60,8 @@ export default function PerformancesPage() {
             ))}
           </div>
 
-          <FadeIn className="mt-16 flex flex-col items-center gap-5 border-t border-border pt-12 text-center">
+          <WaveDivider className="px-0 pb-4 pt-16" />
+          <FadeIn className="flex flex-col items-center gap-5 text-center">
             <h2 className="display text-2xl font-bold">
               More on the YouTube channel
             </h2>

@@ -20,7 +20,7 @@ export default function PhotoCard({
   sizes?: string;
 }) {
   return (
-    <figure className="group relative overflow-hidden rounded-sm bg-surface">
+    <figure className="group relative overflow-hidden rounded-sm bg-surface ring-1 ring-foreground/5 transition-shadow duration-500 hover:ring-accent/50 hover:shadow-[0_24px_50px_-20px_color-mix(in_srgb,var(--accent)_35%,transparent)]">
       <Image
         src={photo.src}
         alt={photo.alt}
@@ -32,9 +32,7 @@ export default function PhotoCard({
       />
 
       <figcaption className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-2 bg-linear-to-t from-ink/80 via-ink/30 to-transparent px-3 pb-3 pt-16 sm:flex-row sm:items-end sm:justify-between sm:px-4 sm:pb-4">
-        <span className="text-[11px] font-semibold uppercase leading-snug text-foreground sm:text-xs sm:tracking-[0.2em]">
-      
-        </span>
+        <span aria-hidden />
         <a
           href={photo.download}
           download={`${photo.id}.jpg`}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fullAddress, nav, site } from "@/lib/site";
 import SocialLinks from "./SocialLinks";
+import Waveform from "./Waveform";
 
 /**
  * Deliberately minimal: the navbar already carries the name and the contact
@@ -11,8 +12,15 @@ export default function Footer() {
   return (
     <footer
       data-print="hide"
-      className="border-t border-border bg-surface-alt py-10"
+      className="relative border-t border-border bg-surface-alt py-10"
     >
+      {/* A small waveform set into the top rule. */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-surface-alt px-4"
+      >
+        <Waveform animate="always" className="h-5 w-24 text-accent/60" />
+      </div>
       {/* Gutter inside the max-width, as in the page sections, so the footer
           lines up with the content column above it. */}
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 md:flex-row md:justify-between">

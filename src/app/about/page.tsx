@@ -9,6 +9,7 @@ import PageHeader from "@/components/PageHeader";
 import PillButton from "@/components/PillButton";
 import PrintBioButton from "@/components/PrintBioButton";
 import SubHeading from "@/components/SubHeading";
+import { WaveDivider } from "@/components/Waveform";
 import { breadcrumbSchema, graph } from "@/lib/jsonld";
 import {
   childhoodPhoto,
@@ -142,16 +143,15 @@ export default function AboutPage() {
         inset={{ photo: childhoodPhoto, caption: "An early concert" }}
         facts={facts}
       >
-        <PrintBioButton />
+        {/* <PrintBioButton />
         <PillButton href="/contact" variant="outline" size="default">
           Book a concert
-        </PillButton>
+        </PillButton> */}
       </PageHeader>
 
-      <section
-        className="relative border-t border-accent/15"
-        data-print="page"
-      >
+      <WaveDivider className="py-0" />
+
+      <section className="relative" data-print="page">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 print:px-0 print:py-0">
           {/* The screen photographs are decorative, so the printed bio
               carries its own portrait. */}
@@ -171,24 +171,6 @@ export default function AboutPage() {
           <div className="print:mt-8">
             <BioStory chapters={chapters} />
           </div>
-
-          <FadeIn as="section" className="mx-auto mt-24 max-w-3xl border-t border-accent/15 pt-16">
-            <SubHeading>Teaching</SubHeading>
-            <p className="mt-6 leading-relaxed text-muted-foreground md:text-lg">
-              He teaches{" "}
-              <strong className="font-semibold text-foreground">
-                tabla classes in JP Nagar, Bangalore
-              </strong>{" "}
-              and online, from complete beginners to advanced students.{" "}
-              <Link
-                href="/classes"
-                data-print="hide"
-                className="font-semibold text-primary hover:underline"
-              >
-                Class details →
-              </Link>
-            </p>
-          </FadeIn>
         </div>
       </section>
     </>

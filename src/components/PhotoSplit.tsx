@@ -116,7 +116,7 @@ export default function PhotoSplit({
             : "-mt-16 pb-20 sm:-mt-28",
         )}
       >
-        <div className={cn(contentWidth, side === "left" && "lg:ml-auto", "print:w-auto")}>
+        <div className={cn("relative", contentWidth, side === "left" && "lg:ml-auto", "print:w-auto")}>
           {children}
         </div>
       </div>

@@ -6,6 +6,7 @@ import FAQ from "@/components/FAQ";
 import JsonLd from "@/components/JsonLd";
 import PageHeader from "@/components/PageHeader";
 import SectionHeading from "@/components/SectionHeading";
+import { WaveDivider } from "@/components/Waveform";
 import {
   breadcrumbSchema,
   faqSchema,
@@ -37,24 +38,6 @@ export const metadata = pageMetadata({
     "Learn tabla in South Bengaluru — beginner to advanced tabla classes in JP Nagar, in person or online, with B-High graded All India Radio artist Kaushik Bhat.",
 });
 
-const levels = [
-  {
-    name: "Beginner",
-    summary: "No background needed",
-    body: "Posture, hand position, tuning and the basic bols; theka in teentaal, dadra and keherwa.",
-  },
-  {
-    name: "Intermediate",
-    summary: "Building repertoire",
-    body: "Kaida, peshkar, rela, tukda and chakradhar; accompanying vocal and instrumental music.",
-  },
-  {
-    name: "Advanced",
-    summary: "Solo and stage",
-    body: "Full solo repertoire, laykari and improvisation; Kathak accompaniment, exams and the stage.",
-  },
-];
-
 const formats = [
   {
     Icon: MapPin,
@@ -69,7 +52,7 @@ const formats = [
   {
     Icon: Users,
     title: "One-to-one or small batch",
-    body: "Weekday evenings and weekend mornings.",
+    body: "Weekday evenings and weekend slots available.",
   },
 ];
 
@@ -125,39 +108,6 @@ export default function ClassesPage() {
         </div>
       </section>
 
-      {/* Syllabus */}
-      <section className="px-6 py-20 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeading
-            align="left"
-            eyebrow="Syllabus"
-            title="Level by"
-            highlight="level"
-          />
-
-          <ol className="mt-14 grid gap-12 md:grid-cols-3 md:gap-10">
-            {levels.map((level, index) => (
-              <FadeIn as="li" key={level.name} delay={index * 0.08}>
-                <div className="border-t border-primary/50 pt-6">
-                  <span className="font-serif text-sm italic text-primary">
-                    0{index + 1}
-                  </span>
-                  <h3 className="mt-3 font-serif text-3xl font-bold">
-                    {level.name}
-                  </h3>
-                  <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
-                    {level.summary}
-                  </p>
-                  <p className="mt-5 leading-relaxed text-muted-foreground">
-                    {level.body}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </ol>
-        </div>
-      </section>
-
       {/* Teacher */}
       {/* <PhotoSplit
         photo={tuningPhoto}
@@ -186,8 +136,10 @@ export default function ClassesPage() {
         </FadeIn>
       </PhotoSplit> */}
 
+      <WaveDivider className="pb-0 pt-16 sm:pt-20" />
+
       {/* FAQ */}
-      <section className="px-6 py-20 sm:py-28">
+      <section className="px-6 pb-20 pt-10 sm:pb-28 sm:pt-14">
         <div className="mx-auto max-w-3xl">
           <SectionHeading
             eyebrow="Questions"

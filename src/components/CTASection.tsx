@@ -2,6 +2,7 @@ import type { ComponentProps } from "react";
 import PillButton from "./PillButton";
 import PhotoSplit from "./PhotoSplit";
 import { Eyebrow, Highlight } from "./SectionHeading";
+import { WaveBackdrop } from "./Waveform";
 import type { Photo } from "@/lib/photos";
 import { cn } from "@/lib/utils";
 
@@ -93,12 +94,13 @@ export default function CTASection({
   return (
     <section
       data-print="hide"
-      className="relative overflow-hidden border-t border-accent/15 px-6 py-24 text-center sm:py-32"
+      className="relative isolate overflow-hidden border-t border-accent/15 px-6 py-24 text-center sm:py-32"
     >
       <div
         aria-hidden
         className="absolute left-1/2 top-1/2 -z-10 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]"
       />
+      <WaveBackdrop className="absolute inset-x-0 top-1/2 -z-10 mx-auto h-48 w-full max-w-5xl -translate-y-1/2 text-accent/10 sm:h-64" />
       <div className="mx-auto max-w-2xl">{content}</div>
     </section>
   );

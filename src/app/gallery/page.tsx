@@ -1,7 +1,9 @@
+import type { CSSProperties } from "react";
 import FadeIn from "@/components/FadeIn";
 import JsonLd from "@/components/JsonLd";
-import PageHeader from "@/components/PageHeader";
 import PhotoCard from "@/components/PhotoCard";
+import { Eyebrow, Highlight } from "@/components/SectionHeading";
+import Waveform, { HeaderBackdrop, WaveDivider } from "@/components/Waveform";
 import { breadcrumbSchema, gallerySchema, graph } from "@/lib/jsonld";
 import { galleryPhotos } from "@/lib/photos";
 import { pageMetadata } from "@/lib/site";
@@ -26,12 +28,27 @@ export default function GalleryPage() {
         )}
       />
 
-      <PageHeader
-        eyebrow=""
-        title=""
-        highlight=""
-        intro=""
-      />
+      <header className="relative isolate overflow-hidden px-6 pb-14 pt-32 text-center sm:pt-40 print:px-0 print:pb-4 print:pt-0">
+        <div className="relative mx-auto max-w-3xl">
+          <HeaderBackdrop className="-inset-x-6 -inset-y-12 lg:-inset-x-48" />
+          <Eyebrow className="hero-rise justify-center">Gallery</Eyebrow>
+          <h1
+            className="hero-rise mt-5 font-serif text-5xl font-bold tracking-tight md:text-6xl"
+            style={{ "--rise-delay": "0.1s" } as CSSProperties}
+          >
+            Moments in
+            <Highlight>Rhythm</Highlight>
+          </h1>
+          <div
+            className="hero-rise mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground"
+            style={{ "--rise-delay": "0.25s" } as CSSProperties}
+          >
+            <span>{galleryPhotos.length} photographs</span>
+            <Waveform animate="always" className="h-4 w-16 text-accent/70" />
+            <span>Free to download</span>
+          </div>
+        </div>
+      </header>
 
       <section className="px-6 pb-24 pt-4">
         <div className="mx-auto max-w-6xl">
@@ -53,9 +70,10 @@ export default function GalleryPage() {
           {/* The id is the target of `license` in the gallery's ImageObject
               nodes — the terms have to live at a real URL, and they already
               live here. */}
+          <WaveDivider className="px-0 pb-6 pt-16" />
           <p
             id="licence"
-            className="mt-12 scroll-mt-28 text-center text-sm text-muted-foreground"
+            className="mx-auto max-w-xl scroll-mt-28 text-center text-sm leading-relaxed text-muted-foreground"
           >
             Photographs may be used for event promotion with credit to Kaushik
             Bhat. For other uses, please{" "}

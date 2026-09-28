@@ -4,6 +4,7 @@ import { MapPin } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import JsonLd from "@/components/JsonLd";
 import { Eyebrow, Highlight } from "@/components/SectionHeading";
+import Waveform, { HeaderBackdrop } from "@/components/Waveform";
 import {
   breadcrumbSchema,
   graph,
@@ -66,12 +67,16 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <Eyebrow>Get in touch</Eyebrow>
-            <h1 className="mt-5 font-serif text-5xl font-bold tracking-tight md:text-6xl">
-              Say
-              <Highlight>Hello</Highlight>
-            </h1>
-            <div className="mt-10">
+            <div className="relative isolate">
+              <HeaderBackdrop className="-inset-x-6 -inset-y-10 lg:-inset-x-24" />
+              <Eyebrow>Get in touch</Eyebrow>
+              <h1 className="mt-5 font-serif text-5xl font-bold tracking-tight md:text-6xl">
+                Say
+                <Highlight>Hello</Highlight>
+              </h1>
+              <Waveform animate="always" className="mt-6 block h-6 w-32 text-accent/80" />
+            </div>
+            <div className="mt-8">
               <ContactForm />
             </div>
 
