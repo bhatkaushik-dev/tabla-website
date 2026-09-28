@@ -8,8 +8,10 @@ export default function FAQ() {
   return (
     <div className="divide-y divide-border border-y border-border">
       {faqs.map((faq) => (
-        <details key={faq.question} className="group py-5">
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-serif text-lg font-semibold text-foreground marker:hidden hover:text-primary">
+        // The padding lives on the summary, so the whole row is the tap
+        // target rather than just the line of text.
+        <details key={faq.question} className="group">
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-serif text-lg font-semibold text-foreground marker:hidden hover:text-primary">
             <h3 className="text-lg font-semibold">{faq.question}</h3>
             <span
               aria-hidden
@@ -18,7 +20,7 @@ export default function FAQ() {
               +
             </span>
           </summary>
-          <p className="mt-3 max-w-3xl pr-10 leading-relaxed text-muted-foreground">
+          <p className="-mt-2 max-w-3xl pb-5 pr-10 leading-relaxed text-muted-foreground">
             {faq.answer}
           </p>
         </details>

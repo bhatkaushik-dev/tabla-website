@@ -39,9 +39,10 @@ export default function PhotoCard({
           href={photo.download}
           download={`${photo.id}.jpg`}
           aria-label={`Download full resolution photo: ${photo.alt}`}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-foreground/25 bg-ink/40 px-2.5 py-1.5 text-xs font-semibold text-foreground backdrop-blur-sm transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground sm:px-3"
+          // A 40px circle on phones (icon only), a labelled pill from 640px.
+          className="inline-flex h-10 min-w-10 shrink-0 items-center justify-center gap-1.5 rounded-full border border-foreground/25 bg-ink/40 px-2.5 text-xs font-semibold text-foreground backdrop-blur-sm transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground sm:px-3"
         >
-          <Download size={13} aria-hidden />
+          <Download size={15} aria-hidden />
           <span aria-hidden className="hidden sm:inline">
             Download
           </span>

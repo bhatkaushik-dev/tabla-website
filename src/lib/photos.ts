@@ -131,6 +131,39 @@ export const tuningPhoto = photo(
   "Tuning",
 );
 
+/*
+ * Family-album frames for the /about story. Small scans rather than shoot
+ * frames, so the story shows them contained over a blurred fill instead of
+ * cropping them full-bleed, and they stay out of the gallery.
+ */
+
+/** His parents — the opening chapter of the /about story. */
+export const parentsPhoto = photo(
+  "kaushik-bhat-parents-ganesh-sunanda-bhat",
+  960,
+  1280,
+  "Stone sculptor Shri Ganesh Bhat and Smt. Sunanda Bhat, parents of tabla artist Kaushik Bhat",
+  "With his parents",
+);
+
+/** A young Kaushik on stage — where the /about story's first strokes begin. */
+export const childhoodPhoto = photo(
+  "kaushik-bhat-tabla-childhood-concert",
+  325,
+  342,
+  "A young Kaushik Bhat performing tabla on stage in a white kurta",
+  "An early concert",
+);
+
+/** With his guru — the /about story's guru chapter. */
+export const guruPhoto = photo(
+  "kaushik-bhat-with-guru-pt-gurumurthy-vaidya",
+  461,
+  348,
+  "Kaushik Bhat with his guru, tabla maestro Pt. Gurumurthy Vaidya",
+  "With Pt. Gurumurthy Vaidya",
+);
+
 /** Shown on /gallery, in display order; every one is downloadable. */
 export const galleryPhotos: Photo[] = [
   heroWidePhoto,

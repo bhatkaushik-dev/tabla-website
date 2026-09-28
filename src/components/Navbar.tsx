@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { nav, site } from "@/lib/site";
 import PillButton from "./PillButton";
+import SocialLinks from "./SocialLinks";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,15 +21,48 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // While the drawer is open: the page behind it can't scroll, and Escape
+  // closes it — the two things a phone menu most often gets wrong.
+  useEffect(() => {
+    if (!isOpen) return;
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = "hidden";
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      root.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen]);
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
+    <>
+    {/* Dims the page under the open drawer; a tap anywhere on it closes. */}
+    <div
+      aria-hidden
+      data-print="hide"
+      onClick={() => setIsOpen(false)}
+      className={cn(
+        "fixed inset-0 z-40 bg-ink/70 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
+        isOpen ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
+    />
     <header
       data-print="hide"
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled ? "glass py-3" : "bg-transparent py-5",
+        // Solid while the drawer is open, so nothing shows through the bar.
+        isOpen
+          ? "border-b border-border bg-background py-3"
+          : scrolled
+            ? "glass py-3"
+            : "bg-transparent py-5",
       )}
     >
       <nav
@@ -37,7 +71,7 @@ export default function Navbar() {
       >
         <Link
           href="/"
-          className="font-serif text-xl font-bold uppercase tracking-[0.12em] text-primary transition-opacity hover:opacity-80"
+          className="-my-2 py-2 font-serif text-xl font-bold uppercase tracking-[0.12em] text-primary transition-opacity hover:opacity-80"
           aria-label={`${site.name} — home`}
         >
           {site.name}
@@ -66,7 +100,7 @@ export default function Navbar() {
 
         <button
           type="button"
-          className="-mr-2 p-2 text-foreground lg:hidden"
+          className="-mr-2.5 flex h-11 w-11 items-center justify-center text-foreground lg:hidden"
           onClick={() => setIsOpen((open) => !open)}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
@@ -82,7 +116,7 @@ export default function Navbar() {
       <div
         id="mobile-menu"
         className={cn(
-          "glass grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out lg:hidden",
+          "grid overflow-hidden bg-background transition-[grid-template-rows,opacity] duration-300 ease-out lg:hidden",
           isOpen
             ? "grid-rows-[1fr] opacity-100"
             : "grid-rows-[0fr] opacity-0",
@@ -94,30 +128,38 @@ export default function Navbar() {
             link to the current route should still dismiss the drawer, and it
             avoids a cascading render after every navigation. */}
         <div className="min-h-0" onClick={() => setIsOpen(false)}>
-          <div className="flex flex-col gap-1 px-6 py-5">
-            {nav.map((item) => (
+          {/* Scrolls on its own if a short landscape screen can't fit it. */}
+          <div className="flex max-h-[calc(100svh-4.5rem)] flex-col overflow-y-auto px-6 pb-8 pt-4">
+            {nav.map((item, i) => (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
+                // Links settle in one after another as the drawer opens.
+                style={{ transitionDelay: isOpen ? `${60 + i * 40}ms` : "0ms" }}
                 className={cn(
-                  "border-b border-border/60 py-3 font-serif text-xl",
-                  isActive(item.href) ? "text-primary" : "text-foreground",
+                  "flex items-center justify-between border-b border-border/60 py-4 font-serif text-2xl transition-[opacity,transform,color] duration-500",
+                  isOpen ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
+                  isActive(item.href) ? "text-primary" : "text-foreground active:text-primary",
                 )}
               >
                 {item.label}
+                {isActive(item.href) && (
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-primary" />
+                )}
               </Link>
             ))}
             <PillButton
               href="/contact"
-              size="sm"
-              className="mt-4 justify-center py-3 text-center"
+              className="mt-8 justify-center text-center"
             >
               Get in touch
             </PillButton>
+            <SocialLinks className="mt-6 justify-center" />
           </div>
         </div>
       </div>
     </header>
+    </>
   );
 }

@@ -43,10 +43,11 @@ export default function ContactPage() {
       />
 
       <section className="px-6 pb-20 pt-32 sm:pt-36 lg:flex lg:min-h-svh lg:items-center lg:py-28">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-16 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
           {/* The full frame at its own 2:3 proportions — nothing is cropped;
-              the edges fade into the page instead of ending in a hard line. */}
-          <div className="relative mx-auto hidden aspect-1707/2560 w-full max-w-md lg:block">
+              the edges fade into the page instead of ending in a hard line.
+              Sits in the right-hand column, with the form on the left. */}
+          <div className="relative mx-auto hidden aspect-1707/2560 w-full max-w-md lg:order-2 lg:block">
             <Image
               src={withTablaPhoto.src}
               alt={withTablaPhoto.alt}
@@ -96,7 +97,7 @@ export default function ContactPage() {
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
+                    className="mt-1 inline-block py-2.5 text-sm font-semibold text-primary hover:underline"
                   >
                     Get directions →
                   </a>

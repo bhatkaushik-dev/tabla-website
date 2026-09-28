@@ -44,6 +44,14 @@ const FRAMES = {
   "1F3A8922.JPG": { name: "kaushik-bhat-tabla-teacher-jp-nagar-studio" },
   "1F3A8933.JPG": { name: "kaushik-bhat-standing-portrait" },
   "1F3A8979.JPG": { name: "kaushik-bhat-with-tabla-portrait" },
+
+  // Family-album frames for the /about story — not from the shoot, and far
+  // smaller than DISPLAY_MAX, so withoutEnlargement leaves them at source size.
+  "childhood-performance.jpg": { name: "kaushik-bhat-tabla-childhood-concert" },
+  "with-guru-gurumurthy-vaidya.jpg": {
+    name: "kaushik-bhat-with-guru-pt-gurumurthy-vaidya",
+  },
+  "with-parents.jpg": { name: "kaushik-bhat-parents-ganesh-sunanda-bhat" },
 };
 
 const DISPLAY_MAX = 2560;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import { domain, mailtoLink, site, telLink, whatsappLink } from "@/lib/site";
 import { pillClasses } from "./PillButton";
 
@@ -129,7 +129,26 @@ export default function ContactForm() {
         Send via WhatsApp
       </button>
 
-      <p className="text-sm text-muted-foreground">
+      {/* Phones: two thumb-sized buttons side by side (a phone number and
+          an email address never wrap neatly in one sentence at 375px).
+          From 640px: the usual one-line text links. */}
+      <div className="grid grid-cols-2 gap-3 sm:hidden">
+        <a
+          href={telLink()}
+          className="flex h-12 items-center justify-center gap-2 rounded-full border border-accent/40 text-sm font-semibold text-foreground transition-colors active:bg-accent/10"
+        >
+          <Phone size={16} aria-hidden className="text-primary" />
+          Call
+        </a>
+        <a
+          href={mailtoLink()}
+          className="flex h-12 items-center justify-center gap-2 rounded-full border border-accent/40 text-sm font-semibold text-foreground transition-colors active:bg-accent/10"
+        >
+          <Mail size={16} aria-hidden className="text-primary" />
+          Email
+        </a>
+      </div>
+      <p className="hidden text-sm text-muted-foreground sm:block">
         Or call{" "}
         <a href={telLink()} className="font-semibold text-primary hover:underline">
           {site.phoneDisplay}

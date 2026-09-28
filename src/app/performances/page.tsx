@@ -2,7 +2,6 @@ import { YoutubeIcon } from "@/components/BrandIcons";
 import PageHeader from "@/components/PageHeader";
 import VideoCard from "@/components/VideoCard";
 import PillButton from "@/components/PillButton";
-import CTASection from "@/components/CTASection";
 import JsonLd from "@/components/JsonLd";
 import FadeIn from "@/components/FadeIn";
 import { breadcrumbSchema, graph, videoSchemas } from "@/lib/jsonld";

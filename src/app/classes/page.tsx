@@ -5,20 +5,15 @@ import FadeIn from "@/components/FadeIn";
 import FAQ from "@/components/FAQ";
 import JsonLd from "@/components/JsonLd";
 import PageHeader from "@/components/PageHeader";
-import PhotoSplit from "@/components/PhotoSplit";
-import PillButton from "@/components/PillButton";
-import SectionHeading, {
-  Eyebrow,
-  Highlight,
-} from "@/components/SectionHeading";
+import SectionHeading from "@/components/SectionHeading";
 import {
   breadcrumbSchema,
   faqSchema,
   graph,
   musicSchoolSchema,
 } from "@/lib/jsonld";
-import { gesturePhoto, tuningPhoto } from "@/lib/photos";
-import { pageMetadata, site, telLink, whatsappLink } from "@/lib/site";
+import { gesturePhoto } from "@/lib/photos";
+import { pageMetadata, site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   path: "/classes",
@@ -78,9 +73,6 @@ const formats = [
   },
 ];
 
-const enquiry =
-  "Hi Kaushik, I'd like to know more about your tabla classes in JP Nagar.";
-
 export default function ClassesPage() {
   return (
     <>
@@ -96,7 +88,8 @@ export default function ClassesPage() {
         eyebrow="Learn tabla"
         title="Tabla Classes in"
         highlight={"JP\u00a0Nagar"}
-        intro={`Learn tabla in South Bengaluru from a ${site.training.grade} graded ${site.training.gradingBody} artist — in person in JP Nagar 1st Phase, or online. Complete beginners welcome.`}
+        // Word joiner after the hyphen, so "B-High" never splits across lines.
+        intro={`Learn tabla in South Bengaluru from a ${site.training.grade.replace("-", "-\u2060")} graded ${site.training.gradingBody} artist — in person in JP Nagar 1st Phase, or online. Complete beginners welcome.`}
         photo={gesturePhoto}
         photoOptions={{
           side: "left",
