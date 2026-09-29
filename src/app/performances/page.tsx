@@ -5,47 +5,47 @@ import PillButton from "@/components/PillButton";
 import JsonLd from "@/components/JsonLd";
 import FadeIn from "@/components/FadeIn";
 import { WaveDivider } from "@/components/Waveform";
+import { getContent, getPage } from "@/lib/content";
 import { breadcrumbSchema, graph, videoSchemas } from "@/lib/jsonld";
-import { videos } from "@/lib/videos";
-import { playingPhoto } from "@/lib/photos";
-import { pageMetadata, site } from "@/lib/site";
+import { pageMetadata, socialUrl } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  path: "/performances",
-  title: "Tabla Performances & Videos | Kaushik Bhat",
-  description:
-    "Watch Kaushik Bhat perform tabla: a solo in drut teentaal, Raag Multani with Shri Aniruddh Aithal and Raag Hamsadhwani with Samarth Hegde.",
-  ogTitle: "Tabla Performances & Videos — Kaushik Bhat",
-  ogDescription:
-    "Tabla solo in drut teentaal, Raag Multani and Raag Hamsadhwani — Hindustani classical performances by Kaushik Bhat.",
-});
+export async function generateMetadata() {
+  const [page, { profile }] = await Promise.all([getPage("performances"), getContent()]);
+  return pageMetadata(page.seo, profile);
+}
 
-export default function PerformancesPage() {
+export default async function PerformancesPage() {
+  const { profile, videos } = await getContent();
+  const { header, channelButtonLabel, closing } = await getPage("performances");
+  const channel = socialUrl(profile, "youtube");
+
   return (
     <>
       <JsonLd
         data={graph(
-          breadcrumbSchema([{ name: "Performances", path: "/performances" }]),
-          ...videoSchemas(),
+          breadcrumbSchema([{ name: header.title, path: "/performances" }]),
+          ...videoSchemas(videos),
         )}
       />
 
       <PageHeader
-        eyebrow="Artistry in motion"
-        title="Watch &"
-        highlight="Experience"
-        intro="Tabla solo and classical accompaniment, recorded live."
-        photo={playingPhoto}
+        eyebrow={header.eyebrow}
+        title={header.heading}
+        highlight={header.highlight}
+        intro={header.intro}
+        photo={header.photo}
         photoOptions={{
           position: "50% 50%",
           mobilePosition: "50% 50%",
           mobileAspect: "aspect-4/5 sm:aspect-[4/3]",
         }}
       >
-        <PillButton href={site.social.youtube} size="default" newTab>
-          <YoutubeIcon size={16} />
-          YouTube channel
-        </PillButton>
+        {channel && channelButtonLabel && (
+          <PillButton href={channel} size="default" newTab>
+            <YoutubeIcon size={16} />
+            {channelButtonLabel}
+          </PillButton>
+        )}
       </PageHeader>
 
       <WaveDivider />
@@ -60,16 +60,18 @@ export default function PerformancesPage() {
             ))}
           </div>
 
-          <WaveDivider className="px-0 pb-4 pt-16" />
-          <FadeIn className="flex flex-col items-center gap-5 text-center">
-            <h2 className="display text-2xl font-bold">
-              More on the YouTube channel
-            </h2>
-            <PillButton href={site.social.youtube} newTab>
-              <YoutubeIcon size={18} />
-              Visit @KaushikBhatTabla
-            </PillButton>
-          </FadeIn>
+          {channel && closing && (
+            <>
+              <WaveDivider className="px-0 pb-4 pt-16" />
+              <FadeIn className="flex flex-col items-center gap-5 text-center">
+                <h2 className="display text-2xl font-bold">{closing.heading}</h2>
+                <PillButton href={channel} newTab>
+                  <YoutubeIcon size={18} />
+                  {closing.buttonLabel}
+                </PillButton>
+              </FadeIn>
+            </>
+          )}
         </div>
       </section>
     </>

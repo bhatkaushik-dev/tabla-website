@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
-import type { Photo } from "@/lib/photos";
+import type { Photo } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type Props = {

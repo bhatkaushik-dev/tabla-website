@@ -1,18 +1,20 @@
 import type { CSSProperties } from "react";
 import { getImageProps } from "next/image";
-import PillButton from "./PillButton";
 import Waveform, { WaveBackdrop } from "./Waveform";
-import { heroPortraitPhoto } from "@/lib/photos";
-import { site } from "@/lib/site";
+import type { Photo, Profile } from "@/lib/types";
 
 const rise = (delay: number) =>
   ({ "--rise-delay": `${delay}s` }) as CSSProperties;
 
-const facts = [
-  { label: "Training", value: `${site.training.years}+ years` },
-  { label: site.training.gradingBody, value: `${site.training.grade} graded` },
-  { label: "Guru", value: site.training.teacher },
-];
+/** The credential line, minus whatever the profile leaves blank. */
+function heroFacts({ training }: Profile) {
+  const facts: { label: string; value: string }[] = [];
+  if (training.years) facts.push({ label: "Training", value: `${training.years}+ years` });
+  if (training.grade)
+    facts.push({ label: training.gradingBody ?? "Grade", value: `${training.grade} graded` });
+  if (training.teacher) facts.push({ label: "Guru", value: training.teacher });
+  return facts;
+}
 
 /**
  * Photographic hero. Server component — the LCP image and the h1 are in the
@@ -28,15 +30,32 @@ const facts = [
  *   - Below that: the name and buttons sit above the frame, so nothing covers
  *     the artist or the tabla.
  */
-export default function Hero() {
-  const { props: img } = getImageProps({
-    alt: heroPortraitPhoto.alt,
-    sizes: "(min-width: 1024px) 60vw, 100vw",
-    fetchPriority: "high",
-    src: heroPortraitPhoto.src,
-    width: heroPortraitPhoto.width,
-    height: heroPortraitPhoto.height,
-  });
+export default function Hero({
+  photo,
+  heading,
+  highlight,
+  tagline,
+  profile,
+}: {
+  /** Pinned beside the name; without one the hero is type alone. */
+  photo?: Photo;
+  /** The name, split so its last word can take the gold gradient. */
+  heading: string;
+  highlight?: string;
+  tagline?: string;
+  profile: Profile;
+}) {
+  const facts = heroFacts(profile);
+  const img =
+    photo &&
+    getImageProps({
+      alt: photo.alt,
+      sizes: "(min-width: 1024px) 60vw, 100vw",
+      fetchPriority: "high",
+      src: photo.src,
+      width: photo.width,
+      height: photo.height,
+    }).props;
 
   return (
     <section className="relative isolate flex w-full flex-col overflow-hidden bg-background lg:min-h-svh lg:flex-row lg:items-center">
@@ -58,19 +77,25 @@ export default function Hero() {
             className="hero-rise block text-4xl font-bold leading-[1.08] sm:text-5xl xl:text-6xl"
             style={rise(0.1)}
           >
-            Kaushik
-            <br />
-            {/* Padding so the gradient fill reaches the B's swash. */}
-            <span className="text-gradient -mx-[0.1em] px-[0.1em]">Bhat</span>
+            {heading}
+            {highlight && (
+              <>
+                <br />
+                {/* Padding so the gradient fill reaches the B's swash. */}
+                <span className="text-gradient -mx-[0.1em] px-[0.1em]">{highlight}</span>
+              </>
+            )}
           </span>
-          <span
-            className="hero-rise mt-5 flex items-center justify-center gap-4 whitespace-nowrap font-sans text-[10px] font-medium uppercase tracking-[0.25em] text-primary sm:text-xs sm:tracking-[0.4em] lg:tracking-[0.3em] xl:tracking-[0.4em] lg:mt-7 lg:justify-start"
-            style={rise(0.35)}
-          >
-            <span aria-hidden className="hidden h-px w-8 bg-primary/60 sm:block lg:w-12" />
-            Tabla Artist | Percussionist 
-            <span aria-hidden className="hidden h-px w-8 bg-primary/60 sm:block lg:hidden" />
-          </span>
+          {tagline && (
+            <span
+              className="hero-rise mt-5 flex items-center justify-center gap-4 whitespace-nowrap font-sans text-[10px] font-medium uppercase tracking-[0.25em] text-primary sm:text-xs sm:tracking-[0.4em] lg:tracking-[0.3em] xl:tracking-[0.4em] lg:mt-7 lg:justify-start"
+              style={rise(0.35)}
+            >
+              <span aria-hidden className="hidden h-px w-8 bg-primary/60 sm:block lg:w-12" />
+              {tagline}
+              <span aria-hidden className="hidden h-px w-8 bg-primary/60 sm:block lg:hidden" />
+            </span>
+          )}
         </h1>
 
         <Waveform
@@ -102,10 +127,11 @@ export default function Hero() {
           lost, at every width. Fades are kept to thin edge bands over the
           backdrop — never over him or the drums. On phones it flows under the
           buttons; from 1024px up it is pinned right at section height. */}
+      {img && (
       <div className="hero-wide-mask relative -z-10 -mt-16 aspect-[1707/2200] w-full overflow-hidden sm:-mt-10 sm:aspect-auto sm:h-[76svh] lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:aspect-square lg:h-full lg:w-auto lg:max-w-[58%]">
         <img
           {...img}
-          alt={heroPortraitPhoto.alt}
+          alt={img.alt}
           className="hero-tone hero-zoom h-full w-full object-cover object-top sm:object-[50%_59%] lg:object-[58%_60%]"
         />
 
@@ -122,6 +148,7 @@ export default function Hero() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_55%_55%,transparent_62%,var(--background)_100%)] opacity-35" />
         </div>
       </div>
+      )}
 
     </section>
   );

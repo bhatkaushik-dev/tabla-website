@@ -5,8 +5,16 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
-      // YouTube thumbnails for the video facades on / and /performances.
+      // YouTube thumbnails for the video facades on /performances.
       { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
+      // The CMS photo library (the backend's Supabase Storage bucket). Only
+      // public objects in that one project, so the optimizer can't be pointed
+      // at arbitrary hosts.
+      {
+        protocol: "https",
+        hostname: "lwawfizrwjgtznrjdfju.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
   poweredByHeader: false,

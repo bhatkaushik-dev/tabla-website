@@ -34,7 +34,7 @@ export function Highlight({ children }: { children: ReactNode }) {
 }
 
 type Props = {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   /** Trailing words set in gold, e.g. title="Watch &" highlight="Experience". */
   highlight?: string;
@@ -52,9 +52,11 @@ export default function SectionHeading({
 }: Props) {
   return (
     <FadeIn className={cn(align === "center" && "text-center", className)}>
-      <Eyebrow className={cn(align === "center" && "justify-center")}>
-        {eyebrow}
-      </Eyebrow>
+      {eyebrow && (
+        <Eyebrow className={cn(align === "center" && "justify-center")}>
+          {eyebrow}
+        </Eyebrow>
+      )}
       <h2 className="mt-5 font-serif text-4xl font-bold tracking-tight md:text-5xl">
         {title}
         {highlight && <Highlight>{highlight}</Highlight>}

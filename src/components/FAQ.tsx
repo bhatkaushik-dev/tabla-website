@@ -1,10 +1,10 @@
-import { faqs } from "@/lib/faqs";
+import type { Faq } from "@/lib/types";
 
 /**
  * Native <details> accordion — no JS, and the answer text is present in the
  * HTML even when collapsed, which is what FAQPage structured data requires.
  */
-export default function FAQ() {
+export default function FAQ({ faqs }: { faqs: Faq[] }) {
   return (
     <div className="divide-y divide-border border-y border-border">
       {faqs.map((faq) => (

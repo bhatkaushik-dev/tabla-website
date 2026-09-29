@@ -3,64 +3,69 @@
  * which escapes `<` per the guidance in
  * node_modules/next/dist/docs/01-app/02-guides/json-ld.md.
  *
+ * They read the same content the visible components render, so the markup
+ * can't drift from the page — Google penalises structured data that isn't on
+ * the page.
+ *
  * The @id values matter: they let the Person node on every page and the
  * MusicSchool node on /classes resolve to the same two entities rather than
  * six unrelated ones, which is what makes an entity-style query like
  * "kaushik bhat tabla" resolve to this site.
  */
 
-import { imageLicense, sameAs, site } from "./site";
-import { videos, thumbnailUrl, watchUrl, embedUrl } from "./videos";
-import { galleryPhotos, heroPortraitPhoto, teachingPhoto } from "./photos";
-import { faqs } from "./faqs";
+import { languageTag, SITE_URL } from "./site";
+import type { Faq, Photo, Profile, Video } from "./types";
+import { embedUrl, watchUrl } from "./youtube";
 
-const abs = (path: string) => new URL(path, site.url).toString();
+/** Site paths become absolute; CDN URLs pass through unchanged. */
+const abs = (path: string) => new URL(path, SITE_URL).toString();
 
-export const PERSON_ID = `${site.url}/#person`;
-export const SCHOOL_ID = `${site.url}/#tabla-classes`;
-export const WEBSITE_ID = `${site.url}/#website`;
+export const PERSON_ID = `${SITE_URL}/#person`;
+export const SCHOOL_ID = `${SITE_URL}/#tabla-classes`;
+export const WEBSITE_ID = `${SITE_URL}/#website`;
 
-const postalAddress = {
+const postalAddress = ({ address }: Profile) => ({
   "@type": "PostalAddress",
-  streetAddress: `${site.address.street}, ${site.address.locality}`,
-  addressLocality: site.address.city,
-  addressRegion: site.address.region,
-  postalCode: site.address.postalCode,
-  addressCountry: site.address.country,
-};
-
-export const personSchema = () => ({
-  "@type": "Person",
-  "@id": PERSON_ID,
-  name: site.name,
-  alternateName: ["Kaushik Bhat Tabla", "Kaushik G Bhat"],
-  url: site.url,
-  image: abs(heroPortraitPhoto.src),
-  jobTitle: site.role,
-  description:
-    "Expert tabla instructor in Bangalore and B-High graded tabla artist of All India Radio, teaching tabla classes in JP Nagar, South Bengaluru.",
-  address: postalAddress,
-  sameAs,
-  knowsAbout: [
-    "Tabla",
-    "Hindustani classical music",
-    "Indian classical percussion",
-    "Kathak accompaniment",
-    "Bhajan and Abhang accompaniment",
-    "Taal and laya",
-  ],
-  knowsLanguage: ["Kannada", "Hindi", "English"],
-  email: `mailto:${site.email}`,
-  telephone: `+${site.phone}`,
-  award: "B-High Graded Artist, All India Radio",
+  streetAddress: [address.street, address.locality].filter(Boolean).join(", ") || undefined,
+  addressLocality: address.city,
+  addressRegion: address.region,
+  postalCode: address.postalCode,
+  addressCountry: address.country,
 });
 
-export const websiteSchema = () => ({
+const geoCoordinates = ({ geo }: Profile) =>
+  geo && { "@type": "GeoCoordinates", latitude: geo.latitude, longitude: geo.longitude };
+
+const contactPoints = (profile: Profile) => ({
+  email: profile.email && `mailto:${profile.email}`,
+  telephone: profile.phone && `+${profile.phone}`,
+});
+
+export const personSchema = (profile: Profile) => ({
+  "@type": "Person",
+  "@id": PERSON_ID,
+  name: profile.name,
+  alternateName: profile.alternateNames,
+  url: SITE_URL,
+  image: profile.image && abs(profile.image),
+  jobTitle: profile.role,
+  description: profile.description,
+  address: postalAddress(profile),
+  sameAs: profile.social.map((link) => link.url),
+  knowsAbout: profile.knowsAbout,
+  knowsLanguage: profile.knowsLanguage,
+  ...contactPoints(profile),
+  award: profile.awards.map((award) =>
+    award.awardedBy ? `${award.title}, ${award.awardedBy}` : award.title,
+  ),
+});
+
+export const websiteSchema = (profile: Profile) => ({
   "@type": "WebSite",
   "@id": WEBSITE_ID,
-  url: site.url,
-  name: `${site.name} — ${site.role}`,
-  inLanguage: "en-IN",
+  url: SITE_URL,
+  name: `${profile.name} — ${profile.role}`,
+  inLanguage: languageTag(profile.locale),
   publisher: { "@id": PERSON_ID },
 });
 
@@ -74,69 +79,51 @@ export const websiteSchema = () => ({
  * `LocalBusiness` alongside it because opening hours, price range and geo
  * are LocalBusiness properties that MusicSchool alone doesn't carry.
  */
-export const musicSchoolSchema = () => ({
-  "@type": ["MusicSchool", "LocalBusiness"],
-  "@id": SCHOOL_ID,
-  name: "Kaushik Bhat Tabla Classes",
-  alternateName: "Tabla Classes in JP Nagar",
-  url: abs("/classes"),
-  image: abs(teachingPhoto.src),
-  description:
-    "Tabla classes in JP Nagar, South Bengaluru, for beginners to advanced students, taught by Kaushik Bhat, a B-High graded tabla artist of All India Radio. Classes are held inside the Swara Hindustani Classical Music School; online lessons are also available.",
-  founder: { "@id": PERSON_ID },
-  employee: { "@id": PERSON_ID },
-  address: postalAddress,
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: site.geo.latitude,
-    longitude: site.geo.longitude,
-  },
-  // Where the lessons physically happen: the host school's premises.
-  location: {
-    "@type": "Place",
-    name: site.address.venue,
-    address: postalAddress,
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: site.geo.latitude,
-      longitude: site.geo.longitude,
+export const musicSchoolSchema = (profile: Profile) => {
+  const { school } = profile;
+  return {
+    "@type": ["MusicSchool", "LocalBusiness"],
+    "@id": SCHOOL_ID,
+    name: school.name ?? profile.name,
+    alternateName: school.alternateName,
+    url: abs("/classes"),
+    image: school.image && abs(school.image),
+    description: school.description,
+    founder: { "@id": PERSON_ID },
+    employee: { "@id": PERSON_ID },
+    address: postalAddress(profile),
+    geo: geoCoordinates(profile),
+    // Where the lessons physically happen: the host school's premises.
+    location: profile.address.venue && {
+      "@type": "Place",
+      name: profile.address.venue,
+      address: postalAddress(profile),
+      geo: geoCoordinates(profile),
     },
-  },
-  areaServed: site.areaServed.map((name) => ({ "@type": "Place", name })),
-  telephone: `+${site.phone}`,
-  email: `mailto:${site.email}`,
-  priceRange: "₹₹",
-  currenciesAccepted: "INR",
-  openingHoursSpecification: [
-    {
+    areaServed: profile.areaServed.map((name) => ({ "@type": "Place", name })),
+    ...contactPoints(profile),
+    priceRange: profile.priceRange,
+    currenciesAccepted: profile.currencies.join(", ") || undefined,
+    openingHoursSpecification: profile.openingHours.map((slot) => ({
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "17:00",
-      closes: "21:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Saturday", "Sunday"],
-      opens: "09:00",
-      closes: "19:00",
-    },
-  ],
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Tabla courses",
-    itemListElement: [
-      "Beginner tabla course",
-      "Intermediate tabla course",
-      "Advanced tabla and solo repertoire",
-      "Online tabla classes",
-    ].map((name) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name, serviceType: "Tabla lessons" },
+      dayOfWeek: slot.days,
+      opens: slot.opens,
+      closes: slot.closes,
     })),
-  },
-});
+    hasOfferCatalog: school.offerings.length
+      ? {
+          "@type": "OfferCatalog",
+          name: school.catalogName,
+          itemListElement: school.offerings.map((name) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name, serviceType: school.catalogName },
+          })),
+        }
+      : undefined,
+  };
+};
 
-export const faqSchema = () => ({
+export const faqSchema = (faqs: Faq[]) => ({
   "@type": "FAQPage",
   mainEntity: faqs.map((faq) => ({
     "@type": "Question",
@@ -145,24 +132,25 @@ export const faqSchema = () => ({
   })),
 });
 
-export const videoSchemas = () =>
+export const videoSchemas = (videos: Video[]) =>
   videos.map((video) => ({
     "@type": "VideoObject",
     name: video.title,
-    description: video.description,
-    thumbnailUrl: thumbnailUrl(video.id),
+    description: video.description ?? video.title,
+    thumbnailUrl: video.thumbnail,
     uploadDate: video.uploadDate,
+    duration: video.duration,
     contentUrl: watchUrl(video.id),
     embedUrl: embedUrl(video.id),
     creator: { "@id": PERSON_ID },
-    inLanguage: "hi",
   }));
 
-export const gallerySchema = () => ({
+/** `name` is the gallery page's own title, as the CMS sets it. */
+export const gallerySchema = (profile: Profile, photos: Photo[], name: string) => ({
   "@type": "ImageGallery",
-  name: `${site.name} — tabla performance photographs`,
+  name,
   url: abs("/gallery"),
-  associatedMedia: galleryPhotos.map((photo) => ({
+  associatedMedia: photos.map((photo) => ({
     "@type": "ImageObject",
     contentUrl: abs(photo.src),
     caption: photo.alt,
@@ -171,25 +159,22 @@ export const gallerySchema = () => ({
     creator: { "@id": PERSON_ID },
     // The four fields Search Console reports as missing. They are what makes
     // an image eligible for the licence badge in Google Images.
-    creditText: imageLicense.creditText,
-    copyrightNotice: imageLicense.copyrightNotice,
-    license: abs(imageLicense.licensePath),
-    acquireLicensePage: abs(imageLicense.acquireLicensePath),
+    creditText: profile.imageLicense.creditText,
+    copyrightNotice: profile.imageLicense.copyrightNotice,
+    license: profile.imageLicense.licensePath && abs(profile.imageLicense.licensePath),
+    acquireLicensePage:
+      profile.imageLicense.acquireLicensePath && abs(profile.imageLicense.acquireLicensePath),
   })),
 });
 
-export const breadcrumbSchema = (
-  trail: { name: string; path: string }[],
-) => ({
+export const breadcrumbSchema = (trail: { name: string; path: string }[]) => ({
   "@type": "BreadcrumbList",
-  itemListElement: [{ name: "Home", path: "/" }, ...trail].map(
-    (item, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: item.name,
-      item: abs(item.path),
-    }),
-  ),
+  itemListElement: [{ name: "Home", path: "/" }, ...trail].map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.name,
+    item: abs(item.path),
+  })),
 });
 
 /** Wraps nodes into one @graph so a page emits a single script tag. */

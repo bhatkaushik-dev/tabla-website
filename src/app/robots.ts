@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/" },
-    sitemap: new URL("/sitemap.xml", site.url).toString(),
-    host: site.url,
+    // /api/ holds only the revalidation webhook — nothing to index.
+    rules: { userAgent: "*", allow: "/", disallow: "/api/" },
+    sitemap: new URL("/sitemap.xml", SITE_URL).toString(),
+    host: SITE_URL,
   };
 }

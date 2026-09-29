@@ -1,20 +1,10 @@
 import Image from "next/image";
-import type { ReactNode } from "react";
 
+import RichText from "./RichText";
 import SubHeading from "./SubHeading";
 import FadeIn from "./FadeIn";
-import type { Photo } from "@/lib/photos";
+import type { Chapter } from "@/lib/types";
 import { cn } from "@/lib/utils";
-
-export type Chapter = {
-  id: string;
-  /** Omitted for a closing passage that simply continues the story. */
-  title?: string;
-  photo?: Photo;
-  /** Caption under the photo. Defaults to the photo's own. */
-  caption?: string;
-  children: ReactNode;
-};
 
 /**
  * The /about biography in plain reading order. A chapter with a photograph is
@@ -40,7 +30,11 @@ export default function BioStory({ chapters }: { chapters: Chapter[] }) {
                 chapter.title && "mt-6",
               )}
             >
-              {chapter.children}
+              {chapter.paragraphs.map((paragraph, index) => (
+                <p key={index}>
+                  <RichText text={paragraph} />
+                </p>
+              ))}
             </div>
           </div>
         );

@@ -4,11 +4,17 @@ import type { ComponentProps, CSSProperties, ReactNode } from "react";
 import PhotoSplit from "./PhotoSplit";
 import { Eyebrow, Highlight } from "./SectionHeading";
 import Waveform, { HeaderBackdrop } from "./Waveform";
-import type { Photo } from "@/lib/photos";
+import type { Photo } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const rise = (delay: number) =>
   ({ "--rise-delay": `${delay}s` }) as CSSProperties;
+
+/** The gold words stay together ("JP Nagar" never splits across lines). */
+const keepTogether = (text: string) => text.replace(/ /g, " ");
+
+/** A word joiner after in-word hyphens, so "B-High" never splits either. */
+const joinHyphens = (text: string) => text.replace(/(\w)-(\w)/g, "$1-⁠$2");
 
 /** Spreads the title backdrop past the text column, as on the home hero. */
 const BACKDROP_INSET = "-inset-x-6 -inset-y-10 lg:-inset-x-24 lg:-inset-y-16";
@@ -60,6 +66,9 @@ export default function PageHeader({
   facts,
   children,
 }: Props) {
+  highlight = highlight && keepTogether(highlight);
+  intro = intro && joinHyphens(intro);
+
   if (inset) {
     const { photo } = inset;
     return (
@@ -101,7 +110,7 @@ export default function PageHeader({
                 {children}
               </div>
             )}
-            {facts && (
+            {facts && facts.length > 0 && (
               <dl
                 className="hero-rise mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-accent/20 pt-8 sm:grid-cols-4"
                 style={rise(0.5)}

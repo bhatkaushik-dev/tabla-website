@@ -1,13 +1,27 @@
-import { OG_CONTENT_TYPE, OG_SIZE, renderOgImage } from "@/lib/og";
+import { getContent } from "@/lib/content";
+import { credentialLine, OG_CONTENT_TYPE, OG_SIZE, renderOgImage } from "@/lib/og";
 
-export const alt =
-  "Kaushik Bhat — tabla artist and teacher, JP Nagar, Bangalore";
-export const size = OG_SIZE;
-export const contentType = OG_CONTENT_TYPE;
+export const revalidate = 300;
+
+/** The site-wide social card. Metadata is generated so the alt text is the CMS's too. */
+export async function generateImageMetadata() {
+  const { profile } = await getContent();
+  return [
+    {
+      id: "card",
+      alt: [profile.name, profile.tagline ?? profile.role].join(" — "),
+      size: OG_SIZE,
+      contentType: OG_CONTENT_TYPE,
+    },
+  ];
+}
 
 export default async function Image() {
+  const { profile } = await getContent();
   return renderOgImage({
-    title: "Kaushik Bhat",
-    subtitle: "Tabla artist & teacher · JP Nagar, Bangalore",
+    title: profile.name,
+    subtitle: profile.tagline ?? profile.role,
+    name: profile.name,
+    credential: credentialLine(profile),
   });
 }

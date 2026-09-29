@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 import { domain } from "./site";
+import type { Profile } from "./types";
 
 /**
  * Shared Open Graph card renderer, so every route's social preview is the same
@@ -12,6 +13,20 @@ import { domain } from "./site";
  * time — an OG image that depends on the network is an OG image that
  * intermittently fails the build.
  */
+
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+/** "B-High Graded · All India Radio", from the profile's training. */
+export const credentialLine = ({ training }: Profile) =>
+  training.grade
+    ? [`${training.grade} Graded`, training.gradingBody].filter(Boolean).join(" · ")
+    : undefined;
 
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = "image/png";
@@ -24,9 +39,15 @@ const MAROON = "#C4707E";
 export async function renderOgImage({
   title,
   subtitle,
+  name,
+  credential,
 }: {
   title: string;
   subtitle: string;
+  /** The wordmark, from the profile. */
+  name: string;
+  /** Bottom-left line, e.g. "B-High Graded · All India Radio". */
+  credential?: string;
 }) {
   const [playfair, inter] = await Promise.all([
     readFile(join(process.cwd(), "assets/PlayfairDisplay-Bold.ttf")),
@@ -64,7 +85,7 @@ export async function renderOgImage({
               fontSize: 30,
             }}
           >
-            KB
+            {initials(name)}
           </div>
           <div
             style={{
@@ -75,7 +96,7 @@ export async function renderOgImage({
               color: BRASS,
             }}
           >
-            Kaushik Bhat
+            {name}
           </div>
         </div>
 
@@ -112,7 +133,7 @@ export async function renderOgImage({
             color: MAROON,
           }}
         >
-          <div style={{ display: "flex" }}>B-High Graded · All India Radio</div>
+          <div style={{ display: "flex" }}>{credential ?? ""}</div>
           <div style={{ display: "flex", color: "rgba(251,247,240,0.45)" }}>
             {domain}
           </div>

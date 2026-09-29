@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
-import { embedUrl, thumbnailUrl, watchUrl, type Video } from "@/lib/videos";
+import type { Video } from "@/lib/types";
+import { embedUrl, watchUrl } from "@/lib/youtube";
 
 /**
  * YouTube facade: shows the thumbnail and only mounts the iframe once the
@@ -43,7 +44,7 @@ export default function VideoCard({ video }: { video: Video }) {
             aria-label={`Play ${video.title}`}
           >
             <Image
-              src={thumbnailUrl(video.id)}
+              src={video.thumbnail}
               alt=""
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
@@ -66,9 +67,12 @@ export default function VideoCard({ video }: { video: Video }) {
       <h3 className="mt-5 font-serif text-xl font-bold leading-snug text-foreground">
         {video.title}
       </h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        {video.description}
-      </p>
+      {/* Clamped: a description synced from YouTube can run to pages. */}
+      {video.description && (
+        <p className="mt-2 line-clamp-5 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+          {video.description}
+        </p>
+      )}
     </article>
   );
 }

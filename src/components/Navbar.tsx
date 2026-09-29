@@ -1,15 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { nav, site } from "@/lib/site";
+import type { NavItem } from "@/lib/site";
 import PillButton from "./PillButton";
-import SocialLinks from "./SocialLinks";
 
-export default function Navbar() {
+export default function Navbar({
+  name,
+  nav,
+  socialLinks,
+}: {
+  name: string;
+  nav: NavItem[];
+  /** Shown at the foot of the phone drawer. */
+  socialLinks: ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -72,9 +80,9 @@ export default function Navbar() {
         <Link
           href="/"
           className="-my-2 py-2 font-serif text-xl font-bold uppercase tracking-[0.12em] text-primary transition-opacity hover:opacity-80"
-          aria-label={`${site.name} — home`}
+          aria-label={`${name} — home`}
         >
-          {site.name}
+          {name}
         </Link>
 
         <div className="hidden items-center gap-8 lg:flex">
@@ -149,13 +157,16 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-            <PillButton
-              href="/contact"
-              className="mt-8 justify-center text-center"
-            >
-              Get in touch
-            </PillButton>
-            <SocialLinks className="mt-6 justify-center" />
+            {/* Only while the contact page is published (it's in the nav). */}
+            {nav.some((item) => item.href === "/contact") && (
+              <PillButton
+                href="/contact"
+                className="mt-8 justify-center text-center"
+              >
+                Get in touch
+              </PillButton>
+            )}
+            {socialLinks}
           </div>
         </div>
       </div>

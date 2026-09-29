@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Download } from "lucide-react";
-import type { Photo } from "@/lib/photos";
+import type { Photo } from "@/lib/types";
 
 /**
  * Gallery tile, at the photograph's own proportions (the gallery is a masonry
@@ -35,7 +35,9 @@ export default function PhotoCard({
         <span aria-hidden />
         <a
           href={photo.download}
-          download={`${photo.id}.jpg`}
+          // Honoured for the bundled copies; the CMS's cross-origin files are
+          // served as attachments instead (see downloadUrl in lib/content).
+          download={photo.download.split("?")[0].split("/").pop()}
           aria-label={`Download full resolution photo: ${photo.alt}`}
           // A 40px circle on phones (icon only), a labelled pill from 640px.
           className="inline-flex h-10 min-w-10 shrink-0 items-center justify-center gap-1.5 rounded-full border border-foreground/25 bg-ink/40 px-2.5 text-xs font-semibold text-foreground backdrop-blur-sm transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground sm:px-3"

@@ -3,7 +3,7 @@ import PillButton from "./PillButton";
 import PhotoSplit from "./PhotoSplit";
 import { Eyebrow, Highlight } from "./SectionHeading";
 import { WaveBackdrop } from "./Waveform";
-import type { Photo } from "@/lib/photos";
+import type { Photo } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type Props = {

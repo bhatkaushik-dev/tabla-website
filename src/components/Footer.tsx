@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { fullAddress, nav, site } from "@/lib/site";
+import { fullAddress, type NavItem } from "@/lib/site";
+import type { Profile } from "@/lib/types";
 import SocialLinks from "./SocialLinks";
 import Waveform from "./Waveform";
 
@@ -8,7 +9,8 @@ import Waveform from "./Waveform";
  * page carries the details, so the footer is just the page links, socials and
  * the copyright — a single compact band, even on phones.
  */
-export default function Footer() {
+export default function Footer({ profile, nav }: { profile: Profile; nav: NavItem[] }) {
+  const address = fullAddress(profile);
   return (
     <footer
       data-print="hide"
@@ -45,14 +47,18 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <SocialLinks />
+        <SocialLinks profile={profile} />
       </div>
 
       <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-2 px-6 text-center text-xs text-muted-foreground md:flex-row md:justify-between md:text-left">
         {/* The same address string as the contact page and the JSON-LD. */}
-        <address className="not-italic">Tabla classes at {fullAddress}</address>
+        {address && (
+          <address className="not-italic">
+            {profile.school.name ? `${profile.school.name} — ${address}` : address}
+          </address>
+        )}
         <p>
-          © {new Date().getFullYear()} {site.name}. All rights reserved.
+          © {new Date().getFullYear()} {profile.name}. All rights reserved.
         </p>
       </div>
     </footer>

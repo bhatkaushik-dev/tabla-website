@@ -2,51 +2,57 @@ import type { CSSProperties } from "react";
 import FadeIn from "@/components/FadeIn";
 import JsonLd from "@/components/JsonLd";
 import PhotoCard from "@/components/PhotoCard";
+import RichText from "@/components/RichText";
 import { Eyebrow, Highlight } from "@/components/SectionHeading";
 import Waveform, { HeaderBackdrop, WaveDivider } from "@/components/Waveform";
+import { getContent, getPage } from "@/lib/content";
 import { breadcrumbSchema, gallerySchema, graph } from "@/lib/jsonld";
-import { galleryPhotos } from "@/lib/photos";
 import { pageMetadata } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  path: "/gallery",
-  title: "Photo Gallery | Kaushik Bhat, Tabla Artist",
-  description:
-    "Studio photographs of tabla artist Kaushik Bhat, free to download in full resolution for press, posters and event listings.",
-  ogTitle: "Photo Gallery — Kaushik Bhat, Tabla Artist",
-  ogDescription:
-    "Studio photographs of Kaushik Bhat, downloadable in full resolution.",
-});
+export async function generateMetadata() {
+  const [page, { profile }] = await Promise.all([getPage("gallery"), getContent()]);
+  return pageMetadata(page.seo, profile);
+}
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const { profile, gallery } = await getContent();
+  const { header, seo, countNote, licenceNote } = await getPage("gallery");
+
   return (
     <>
       <JsonLd
         data={graph(
-          breadcrumbSchema([{ name: "Gallery", path: "/gallery" }]),
-          gallerySchema(),
+          breadcrumbSchema([{ name: header.title, path: "/gallery" }]),
+          gallerySchema(profile, gallery, seo.title),
         )}
       />
 
       <header className="relative isolate overflow-hidden px-6 pb-14 pt-32 text-center sm:pt-40 print:px-0 print:pb-4 print:pt-0">
         <div className="relative mx-auto max-w-3xl">
           <HeaderBackdrop className="-inset-x-6 -inset-y-12 lg:-inset-x-48" />
-          <Eyebrow className="hero-rise justify-center">Gallery</Eyebrow>
+          {header.eyebrow && (
+            <Eyebrow className="hero-rise justify-center">{header.eyebrow}</Eyebrow>
+          )}
           <h1
             className="hero-rise mt-5 font-serif text-5xl font-bold tracking-tight md:text-6xl"
             style={{ "--rise-delay": "0.1s" } as CSSProperties}
           >
-            Moments in
-            <Highlight>Rhythm</Highlight>
+            {header.heading}
+            {header.highlight && <Highlight>{header.highlight}</Highlight>}
           </h1>
           <div
             className="hero-rise mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground"
             style={{ "--rise-delay": "0.25s" } as CSSProperties}
           >
-            <span>{galleryPhotos.length} photographs</span>
+            <span>{gallery.length} photographs</span>
             <Waveform animate="always" className="h-4 w-16 text-accent/70" />
-            <span>Free to download</span>
+            {countNote && <span>{countNote}</span>}
           </div>
+          {header.intro && (
+            <p className="mx-auto mt-8 max-w-2xl leading-relaxed text-muted-foreground md:text-lg">
+              {header.intro}
+            </p>
+          )}
         </div>
       </header>
 
@@ -56,7 +62,7 @@ export default function GalleryPage() {
               near-identical portrait crops reads as one endless photo on a
               phone, so pairs sit side by side even there. */}
           <div className="columns-2 gap-3 lg:columns-3 lg:gap-4">
-            {galleryPhotos.map((photo, index) => (
+            {gallery.map((photo, index) => (
               <FadeIn
                 key={photo.id}
                 delay={(index % 3) * 0.08}
@@ -70,24 +76,19 @@ export default function GalleryPage() {
           {/* The id is the target of `license` in the gallery's ImageObject
               nodes — the terms have to live at a real URL, and they already
               live here. */}
-          <WaveDivider className="px-0 pb-6 pt-16" />
-          <p
-            id="licence"
-            className="mx-auto max-w-xl scroll-mt-28 text-center text-sm leading-relaxed text-muted-foreground"
-          >
-            Photographs may be used for event promotion with credit to Kaushik
-            Bhat. For other uses, please{" "}
-            <a
-              href="/contact"
-              className="font-semibold text-primary hover:underline"
-            >
-              get in touch
-            </a>
-            .
-          </p>
+          {licenceNote && (
+            <>
+              <WaveDivider className="px-0 pb-6 pt-16" />
+              <p
+                id="licence"
+                className="mx-auto max-w-xl scroll-mt-28 text-center text-sm leading-relaxed text-muted-foreground"
+              >
+                <RichText text={licenceNote} />
+              </p>
+            </>
+          )}
         </div>
       </section>
-
     </>
   );
 }
