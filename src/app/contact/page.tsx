@@ -32,8 +32,7 @@ const EDGE_FADE =
 /**
  * One screen: the photograph whole on the left, the form on the right. The
  * form itself carries the number and email in its footnote, so there is no
- * separate details list. On phones the photo is dropped — the form is the
- * page.
+ * separate details list. On phones and tablets the photo stacks above.
  */
 export default async function ContactPage() {
   const { profile } = await getContent();
@@ -53,13 +52,15 @@ export default async function ContactPage() {
       />
 
       <section className="px-6 pb-20 pt-32 sm:pt-36 lg:flex lg:min-h-svh lg:items-center lg:py-28">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           {/* The full frame at its own proportions — nothing is cropped;
               the edges fade into the page instead of ending in a hard line.
-              Sits in the right-hand column, with the form on the left. */}
+              Sits in the right-hand column, with the form on the left; below
+              lg it stacks above the heading, kept small so the form stays
+              near the top. */}
           {photo && (
             <div
-              className="relative mx-auto hidden w-full max-w-md lg:order-2 lg:block"
+              className="relative mx-auto w-full max-w-60 sm:max-w-xs lg:order-2 lg:max-w-md"
               style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
             >
               <Image
@@ -68,7 +69,7 @@ export default async function ContactPage() {
                 fill
                 loading="eager"
                 fetchPriority="high"
-                sizes="28rem"
+                sizes="(min-width: 1024px) 28rem, (min-width: 640px) 20rem, 15rem"
                 className="photo-tone object-cover"
                 style={{
                   maskImage: EDGE_FADE,
